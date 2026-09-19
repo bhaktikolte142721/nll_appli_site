@@ -1105,6 +1105,79 @@ th.sort-desc .sort-icon {
   line-height: 1.5;
 }
 
+/* Label with Quick Presets */
+.label-with-presets {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.deadline-presets {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.preset-label {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.45);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 500;
+}
+
+.btn-deadline-preset {
+  background: rgba(59, 130, 246, 0.15);
+  border: 1px solid rgba(59, 130, 246, 0.35);
+  border-radius: 6px;
+  color: #93c5fd;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.btn-deadline-preset:hover {
+  background: rgba(59, 130, 246, 0.3);
+  border-color: #3b82f6;
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+.btn-deadline-preset:active {
+  transform: translateY(0);
+}
+
+.deadline-field {
+  color-scheme: dark;
+  cursor: pointer;
+}
+
+.deadline-field::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  filter: invert(0.8) sepia(100%) saturate(1000%) hue-rotate(180deg);
+  opacity: 0.85;
+  padding: 4px;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.deadline-field::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
+  transform: scale(1.15);
+}
+
+.deadline-hint {
+  font-size: 11.5px;
+  color: rgba(255, 255, 255, 0.45);
+  margin-top: 5px;
+  line-height: 1.4;
+}
+
 /* Selected Deadline formatted pill */
 .selected-deadline-preview {
   display: inline-flex;
@@ -1127,7 +1200,15 @@ th.sort-desc .sort-icon {
   font-weight: 500;
 }
 
-.selected-deadline-preview.deadline-error strong {
+.selected-deadline-preview.deadline-warning {
+  background: rgba(245, 158, 11, 0.15);
+  border: 1px solid rgba(245, 158, 11, 0.5);
+  color: #fde68a;
+  font-weight: 500;
+}
+
+.selected-deadline-preview.deadline-error strong,
+.selected-deadline-preview.deadline-warning strong {
   color: #ffffff;
 }
 

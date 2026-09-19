@@ -203,12 +203,25 @@ document.addEventListener('DOMContentLoaded', async () => {
         previewDeadlineContainer.style.display = 'inline-flex';
       }
     } else {
-      if (selectedDeadlinePreview) {
-        selectedDeadlinePreview.style.display = 'none';
-      }
-      if (previewDeadlineVal && previewDeadlineContainer) {
-        previewDeadlineVal.textContent = 'No deadline set';
-        previewDeadlineContainer.style.display = 'inline-flex';
+      const isBadInput = taskDeadlineInput && taskDeadlineInput.validity && taskDeadlineInput.validity.badInput;
+      if (isBadInput) {
+        if (selectedDeadlinePreview) {
+          selectedDeadlinePreview.className = 'selected-deadline-preview deadline-warning';
+          selectedDeadlinePreview.innerHTML = `⏳ <span>Date/time incomplete. Please pick day, year, and time using the calendar 📅 or a quick button above.</span>`;
+          selectedDeadlinePreview.style.display = 'inline-flex';
+        }
+        if (previewDeadlineVal && previewDeadlineContainer) {
+          previewDeadlineVal.innerHTML = `<span style="color: #f59e0b;">⏳ Incomplete date/time</span>`;
+          previewDeadlineContainer.style.display = 'inline-flex';
+        }
+      } else {
+        if (selectedDeadlinePreview) {
+          selectedDeadlinePreview.style.display = 'none';
+        }
+        if (previewDeadlineVal && previewDeadlineContainer) {
+          previewDeadlineVal.textContent = 'No deadline set';
+          previewDeadlineContainer.style.display = 'inline-flex';
+        }
       }
     }
   }
@@ -287,6 +300,39 @@ document.addEventListener('DOMContentLoaded', async () => {
     taskDeadlineInput?.addEventListener(evt, () => {
       clearFormError();
       validateForm();
+    });
+  });
+
+  // Clicking anywhere in the deadline input automatically triggers the native picker
+  taskDeadlineInput?.addEventListener('click', () => {
+    if (typeof taskDeadlineInput.showPicker === 'function') {
+      try {
+        taskDeadlineInput.showPicker();
+      } catch (err) {
+        // Ignored if picker cannot be opened programmatically in this context
+      }
+    }
+  });
+
+  // Quick Deadline Preset Buttons (+3 Days, +5 Days, +1 Week, +2 Weeks)
+  document.querySelectorAll('.btn-deadline-preset').forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const days = parseInt(btn.getAttribute('data-days'), 10) || 3;
+      const targetDate = new Date();
+      targetDate.setDate(targetDate.getDate() + days);
+      targetDate.setHours(18, 0, 0, 0); // Default to 6:00 PM
+      
+      const localIso = new Date(targetDate.getTime() - targetDate.getTimezoneOffset() * 60000)
+        .toISOString()
+        .slice(0, 16);
+        
+      if (taskDeadlineInput) {
+        taskDeadlineInput.value = localIso;
+        clearFormError();
+        validateForm();
+        showToast(`Deadline set to ${formatDeadline(localIso)}`);
+      }
     });
   });
 
@@ -951,7 +997,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
       }
       if (!deadline) {
-        showFormError('Deadline date and time is required.');
+        const isBad = taskDeadlineInput && taskDeadlineInput.validity && taskDeadlineInput.validity.badInput;
+        if (isBad) {
+          showFormError('⚠️ Incomplete deadline: Please fill all fields (day, month, year, time) or click a quick button like "+3 Days".');
+        } else {
+          showFormError('Deadline date and time is required. Please pick a date or select a quick button.');
+        }
+        taskDeadlineInput?.focus();
+        try { taskDeadlineInput?.showPicker(); } catch (err) {}
         return;
       }
       const deadlineDate = new Date(deadline);

@@ -150,14 +150,28 @@
 
             <!-- D. Deadline * -->
             <div class="task-form-group">
-              <label for="taskDeadlineInput" class="task-form-label">Deadline <span class="required-star">*</span></label>
-              <input 
-                type="datetime-local" 
-                id="taskDeadlineInput" 
-                name="deadline" 
-                class="task-form-input" 
-                required
-              >
+              <div class="label-with-presets">
+                <label for="taskDeadlineInput" class="task-form-label">Deadline <span class="required-star">*</span></label>
+                <div class="deadline-presets">
+                  <span class="preset-label">Quick:</span>
+                  <button type="button" class="btn-deadline-preset" data-days="3">+3 Days</button>
+                  <button type="button" class="btn-deadline-preset" data-days="5">+5 Days</button>
+                  <button type="button" class="btn-deadline-preset" data-days="7">+1 Week</button>
+                  <button type="button" class="btn-deadline-preset" data-days="14">+2 Weeks</button>
+                </div>
+              </div>
+              <div class="deadline-input-container">
+                <input 
+                  type="datetime-local" 
+                  id="taskDeadlineInput" 
+                  name="deadline" 
+                  class="task-form-input deadline-field" 
+                  required
+                >
+              </div>
+              <div class="deadline-hint" id="deadlineHint">
+                💡 Click the calendar icon 📅 or box to pick a date & time, or use the quick buttons above.
+              </div>
               <div class="selected-deadline-preview" id="selectedDeadlinePreview" style="display: none;">
                 <span class="deadline-preview-icon">📅</span>
                 <span class="deadline-preview-label">Selected:</span>
