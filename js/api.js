@@ -4,7 +4,10 @@
  */
 
 (function () {
-  const API_BASE_URL = 'http://localhost:5000/api';
+  const isLocalDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+  const API_BASE_URL = (isLocalDev && window.location.port !== '5000' && window.location.port !== '')
+    ? 'http://localhost:5000/api'
+    : '/api';
 
   const TOKEN_KEY = 'nll_auth_token';
   const USER_KEY = 'nll_user_profile';

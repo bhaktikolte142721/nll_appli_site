@@ -2,15 +2,21 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 
-// Ensure upload directories exist
-const resumesDir = path.join(__dirname, '..', 'uploads', 'resumes');
-const submissionsDir = path.join(__dirname, '..', 'uploads', 'submissions');
+// Ensure upload directories exist (use /tmp when running in Vercel serverless environment)
+const isVercel = process.env.VERCEL === '1' || !!process.env.VERCEL;
+const baseUploadsDir = isVercel ? path.join('/tmp', 'uploads') : path.join(__dirname, '..', 'uploads');
+const resumesDir = path.join(baseUploadsDir, 'resumes');
+const submissionsDir = path.join(baseUploadsDir, 'submissions');
 
-[resumesDir, submissionsDir].forEach(dir => {
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir, { recursive: true });
-  }
-});
+try {
+  [resumesDir, submissionsDir].forEach(dir => {
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
+  });
+} catch (e) {
+  console.warn('Upload directory initialization notice:', e.message);
+}
 
 // Explicit list of dangerous executable and script extensions to unconditionally reject
 const DANGEROUS_EXTS = [

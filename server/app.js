@@ -43,7 +43,7 @@ const allowedOrigins = [
 app.use(cors({
   origin: (origin, callback) => {
     // Allow requests with no origin (like mobile apps, curl, or same-origin)
-    if (!origin || allowedOrigins.includes(origin) || process.env.NODE_ENV !== 'production') {
+    if (!origin || allowedOrigins.includes(origin) || process.env.NODE_ENV !== 'production' || (origin && origin.endsWith('.vercel.app'))) {
       callback(null, true);
     } else {
       callback(new Error('Blocked by CORS policy'));
@@ -61,16 +61,19 @@ app.use('/api', apiLimiter);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Health check endpoint
-app.get('/api/health', async (req, res) => {
+// Health check endpoint (accessible at both /api/health and /health)
+const healthHandler = async (req, res) => {
   const dbStatus = await db.testConnection();
   return successResponse(res, 'New Leap Labs API is running', {
     status: 'healthy',
     database: dbStatus.success ? 'connected' : 'disconnected',
+    databaseError: dbStatus.error || null,
     timestamp: new Date().toISOString(),
     env: process.env.NODE_ENV || 'development'
   });
-});
+};
+app.get('/api/health', healthHandler);
+app.get('/health', healthHandler);
 
 // Dedicated endpoint to verify rate-limiting behavior in tests
 app.get('/api/test-rate-limit', testRateLimiter, (req, res) => {
@@ -149,13 +152,20 @@ app.get('/uploads/submissions/:filename', authenticateToken, async (req, res) =>
   res.sendFile(filePath);
 });
 
-// API Routes
-app.use('/api/auth', authRoutes);
-app.use('/api/applications', applicationsRoutes);
-app.use('/api/tasks', tasksRoutes);
-app.use('/api/interviews', interviewsRoutes);
-app.use('/api/dashboard', dashboardRoutes);
-app.use('/api/users', usersRoutes);
+// API Routes (mounted with /api and direct prefix for seamless serverless routing)
+const apiRoutesList = [
+  ['/auth', authRoutes],
+  ['/applications', applicationsRoutes],
+  ['/tasks', tasksRoutes],
+  ['/interviews', interviewsRoutes],
+  ['/dashboard', dashboardRoutes],
+  ['/users', usersRoutes]
+];
+
+apiRoutesList.forEach(([routePath, router]) => {
+  app.use(`/api${routePath}`, router);
+  app.use(routePath, router);
+});
 
 // 404 handler for unknown routes
 app.use((req, res) => {

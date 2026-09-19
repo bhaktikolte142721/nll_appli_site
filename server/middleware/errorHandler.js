@@ -37,6 +37,11 @@ function errorHandler(err, req, res, next) {
     return errorResponse(res, 'Referenced parent record does not exist.', 400);
   }
 
+  // MySQL Connection & Host unreachable errors
+  if (['ECONNREFUSED', 'ETIMEDOUT', 'ENOTFOUND', 'ER_ACCESS_DENIED_ERROR', 'PROTOCOL_CONNECTION_LOST'].includes(err.code)) {
+    return errorResponse(res, `Database unavailable (${err.code}). Please verify cloud database status and Vercel environment variables.`, 503);
+  }
+
   // Log unexpected errors for debugging in development
   if (process.env.NODE_ENV !== 'production') {
     console.error('Unhandled Server Error:', err);

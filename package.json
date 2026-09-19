@@ -4,6 +4,7 @@
   "description": "New Leap Labs Interview Management Platform - Full Stack with MySQL",
   "main": "server/server.js",
   "scripts": {
+    "build": "echo Build complete",
     "start": "node server/server.js",
     "dev": "nodemon server/server.js",
     "serve:frontend": "node server.js",
