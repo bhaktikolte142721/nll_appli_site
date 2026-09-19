@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Leap Labs - Login</title>
+  <meta name="description" content="Sign in to your New Leap Labs account. People, Technology, Planet, Possibilities. # We Believe.">
+  <!-- Google Fonts: Inter & Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="page-background" aria-hidden="true"></div>
+
+  <main class="page-container" id="main-content">
+    <!-- Left Column: Login Section -->
+    <section class="login-section" aria-label="Sign In Section">
+      <div class="header-group space-reveal">
+        <h1 class="welcome-heading">Welcome Back</h1>
+        <h2 class="sub-heading">Glad To See You Again</h2>
+      </div>
+
+      <form class="login-form space-reveal" id="loginForm" novalidate>
+        <!-- Email Field -->
+        <div class="form-group">
+          <label for="emailInput" class="form-label">Email address</label>
+          <div class="input-wrapper">
+            <input 
+              type="email" 
+              id="emailInput" 
+              name="email" 
+              class="form-input" 
+              placeholder="Enter your email" 
+              required 
+              autocomplete="email"
+            >
+          </div>
+          <span class="field-error" id="emailError" aria-live="polite"></span>
+        </div>
+
+        <!-- Password Field -->
+        <div class="form-group">
+          <label for="passwordInput" class="form-label">Password</label>
+          <div class="input-wrapper">
+            <input 
+              type="password" 
+              id="passwordInput" 
+              name="password" 
+              class="form-input" 
+              placeholder="Enter your password" 
+              required 
+              autocomplete="current-password"
+            >
+            <button type="button" class="password-toggle" id="passwordToggle" aria-label="Toggle password visibility" title="Show/Hide Password">
+              <svg class="eye-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            </button>
+          </div>
+          <span class="field-error" id="passwordError" aria-live="polite"></span>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="submit-btn" id="submitBtn">
+          <span class="btn-text">Sign in</span>
+          <span class="btn-spinner" aria-hidden="true"></span>
+        </button>
+
+        <!-- Or Divider -->
+        <div class="divider" role="separator" aria-label="Or sign in with social accounts">
+          <div class="divider-line"></div>
+          <span class="divider-text">Or</span>
+        </div>
+
+        <!-- Social Buttons -->
+        <div class="social-actions">
+          <button type="button" class="social-btn google-btn" id="googleSignInBtn" aria-label="Sign in with Google">
+            <img src="assets/google-icon.svg" alt="" width="20" height="20" class="social-icon">
+            <span>Sign in with Google</span>
+          </button>
+          <button type="button" class="social-btn apple-btn" id="appleSignInBtn" aria-label="Sign in with Apple">
+            <img src="assets/apple-icon.svg" alt="" width="20" height="20" class="social-icon">
+            <span>Sign in with Apple</span>
+          </button>
+        </div>
+
+        <!-- Switch Account / Register Prompt -->
+        <p class="account-switch">
+          Have an account? <a href="pages/application1.html" class="switch-link" id="switchAccountLink">Sign In</a>
+        </p>
+      </form>
+    </section>
+
+    <!-- Right Column: Brand Hero Section -->
+    <section class="hero-section space-reveal-left" aria-label="Brand Overview">
+      <!-- Floating Satellite -->
+      <div class="satellite-container" aria-hidden="true">
+        <img src="assets/satellite.png" alt="Orbiting Satellite" class="satellite-img" width="255" height="170">
+      </div>
+
+      <!-- Hero Content Flex Container -->
+      <div class="hero-content">
+        <!-- Main Brand Typography -->
+        <div class="brand-block">
+          <h2 class="brand-title">
+            <span class="brand-name">New Leap</span>
+            <span class="brand-highlight">Labs</span>
+          </h2>
+          <div class="brand-accent-line" aria-hidden="true"></div>
+          <p class="brand-motto"># We Believe</p>
+        </div>
+
+        <!-- Values Pillar -->
+        <div class="values-pillar space-reveal" aria-label="Core Pillars">
+          <div class="values-accent-bar" aria-hidden="true"></div>
+          <ul class="values-list">
+            <li>People</li>
+            <li>Technology</li>
+            <li>Planet</li>
+            <li>Possibilities</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Notification Toast Container -->
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <script src="js/api.js"></script>
+  <script src="js/space-animations.js"></script>
+  <script src="js/script.js"></script>
+</body>
+</html>

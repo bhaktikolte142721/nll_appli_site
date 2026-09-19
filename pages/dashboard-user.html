@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Dashboard - New Leap Labs</title>
+  <meta name="description" content="Candidate status and selection tracking dashboard for New Leap Labs.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/dashboard-user.css">
+</head>
+<body class="dashboard-body">
+
+  <!-- Left Sidebar Navigation -->
+  <aside class="dashboard-sidebar" id="sidebar" aria-label="Main Navigation">
+    <!-- Top Profile Avatar -->
+    <div class="sidebar-profile-section">
+      <div class="profile-avatar-wrap">
+        <img src="../assets/icons/profile-circle.svg" alt="User Profile" class="profile-avatar-img">
+      </div>
+      <span class="profile-label">Profile</span>
+    </div>
+
+    <!-- Navigation Menu Items -->
+    <nav class="sidebar-nav" aria-label="Dashboard Menu">
+      <a href="dashboard-user.html" class="nav-item active" aria-current="page" id="navDashboard">
+        <span>Dashboard</span>
+      </a>
+      <a href="user-task.html" class="nav-item" id="navTaskAssignment">
+        <span>Task Assignment</span>
+      </a>
+    </nav>
+
+    <!-- Bottom Logout Action -->
+    <div class="sidebar-footer">
+      <a href="../login.html" class="logout-action-btn" id="logoutBtn" title="Sign out and return to Login">
+        <span class="logout-text">Logout</span>
+        <img src="../assets/icons/logout.svg" alt="" class="logout-icon" aria-hidden="true">
+      </a>
+    </div>
+  </aside>
+
+  <!-- Mobile Sidebar Overlay & Header -->
+  <div class="mobile-topbar" id="mobileTopbar">
+    <button type="button" class="mobile-menu-toggle" id="menuToggle" aria-label="Toggle navigation menu">
+      <span class="hamburger-bar"></span>
+      <span class="hamburger-bar"></span>
+      <span class="hamburger-bar"></span>
+    </button>
+    <span class="mobile-logo-title">New Leap Labs</span>
+    <div class="mobile-profile-thumb">
+      <img src="../assets/icons/profile-circle.svg" alt="Profile" width="32" height="32">
+    </div>
+  </div>
+  <div class="sidebar-backdrop" id="sidebarBackdrop" aria-hidden="true"></div>
+
+  <!-- Main Dashboard Content Area -->
+  <main class="dashboard-main" id="mainContent">
+    <div class="main-content-container">
+      <!-- Dashboard Page Title -->
+      <h1 class="page-title" id="pageTitle">Dashboard</h1>
+
+      <!-- Hero Banner Card (Welcome — name loaded dynamically from API) -->
+      <section class="hero-welcome-card space-reveal" aria-labelledby="heroTitle">
+        <div class="hero-card-content">
+          <h2 class="hero-title" id="heroTitle">Loading...</h2>
+          <p class="hero-description">
+            Track your journey from application to selection.<br>
+            Your current status is: <span class="status-dynamic-tag" id="dynamicStatusText"></span>.
+          </p>
+
+          <!-- Candidate Status Announcement (Selected or Rejected) -->
+          <div class="candidate-status-announcement" id="announcementBox" style="display: none;">
+            <span class="announcement-icon" id="announcementIcon">🎉</span>
+            <div class="announcement-content">
+              <strong class="announcement-title" id="announcementTitle">Application Status</strong>
+              <p class="announcement-desc" id="announcementDesc">Details regarding your recruitment journey.</p>
+            </div>
+          </div>
+
+          <!-- Dynamic Pipeline Stepper -->
+          <div class="pipeline-stepper" id="pipelineStepper" aria-label="Recruitment Stages">
+            <div class="step-item" id="stepApplied">
+              <div class="step-circle">1</div>
+              <span class="step-label">Applied</span>
+            </div>
+            <div class="step-line" id="line1"></div>
+            <div class="step-item" id="stepAssigned">
+              <div class="step-circle">2</div>
+              <span class="step-label">Task Assigned</span>
+            </div>
+            <div class="step-line" id="line2"></div>
+            <div class="step-item" id="stepSubmitted">
+              <div class="step-circle">3</div>
+              <span class="step-label">Task Submitted</span>
+            </div>
+            <div class="step-line" id="line3"></div>
+            <div class="step-item" id="stepReview">
+              <div class="step-circle">4</div>
+              <span class="step-label">Under Review</span>
+            </div>
+            <div class="step-line" id="line4"></div>
+            <div class="step-item" id="stepInterview">
+              <div class="step-circle">5</div>
+              <span class="step-label">Second Interview</span>
+            </div>
+            <div class="step-line" id="line5"></div>
+            <div class="step-item" id="stepDecision">
+              <div class="step-circle">6</div>
+              <span class="step-label" id="stepDecisionLabel">Selected</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Scheduled Second Interview Section (Shown when status is SECOND_INTERVIEW or INTERVIEW) -->
+      <section class="interview-schedule-card space-reveal" id="scheduledInterviewSection" style="display: none;" aria-label="Scheduled Interview Details">
+        <div class="interview-card-header">
+          <div class="interview-title-group">
+            <span class="interview-eyebrow">STAGE 02 ROUND</span>
+            <h3 class="interview-card-title">Second Interview Round</h3>
+          </div>
+          <span class="interview-status-tag" id="interviewStatusTag">Scheduled</span>
+        </div>
+        <div class="interview-details-grid">
+          <div class="interview-detail-item">
+            <span class="int-label">Date:</span>
+            <strong class="int-val" id="interviewDateVal">—</strong>
+          </div>
+          <div class="interview-detail-item">
+            <span class="int-label">Time:</span>
+            <strong class="int-val" id="interviewTimeVal">—</strong>
+          </div>
+          <div class="interview-detail-item" id="interviewModeContainer" style="display: none;">
+            <span class="int-label">Mode:</span>
+            <strong class="int-val" id="interviewModeVal">Online</strong>
+          </div>
+          <div class="interview-detail-item" id="interviewLinkContainer" style="display: none;">
+            <span class="int-label">Meeting:</span>
+            <span class="int-val" id="interviewLinkVal"></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Selection Status Data Card -->
+      <section class="status-table-card" aria-label="Application Selection Status">
+        <!-- Card Header with Title and Actions -->
+        <header class="table-card-header">
+          <div class="header-info-group">
+            <div class="title-badge-row">
+              <h3 class="table-card-title">New Leap Lab</h3>
+              <span class="status-live-badge" id="liveBadge">Live Status</span>
+            </div>
+            <p class="table-card-subtitle">selection status....</p>
+          </div>
+
+          <div class="header-actions-group">
+            <button type="button" class="action-ghost-btn" id="deleteBtn" aria-label="Delete selection">
+              <img src="../assets/icons/trash.svg" alt="" class="action-icon" aria-hidden="true">
+              <span>Delete</span>
+            </button>
+            <button type="button" class="action-ghost-btn" id="filterBtn" aria-label="Filter status rows">
+              <img src="../assets/icons/filters.svg" alt="" class="action-icon" aria-hidden="true">
+              <span>Filters</span>
+            </button>
+            <button type="button" class="action-export-btn" id="exportBtn" aria-label="Export status data">
+              <img src="../assets/icons/cloud-download.svg" alt="" class="action-icon" aria-hidden="true">
+              <span>Export</span>
+            </button>
+          </div>
+        </header>
+
+        <!-- Responsive Table Container -->
+        <div class="table-responsive-wrapper">
+          <table class="status-data-table" id="statusTable">
+            <thead>
+              <tr>
+                <th scope="col" class="col-sr">
+                  <span class="th-label">Sr. No</span>
+                </th>
+                <th scope="col" class="col-name sortable" data-sort="name">
+                  <div class="th-content">
+                    <span>Name</span>
+                    <img src="../assets/icons/arrow-down.svg" alt="Sort by name" class="sort-icon">
+                  </div>
+                </th>
+                <th scope="col" class="col-domain sortable" data-sort="domain">
+                  <div class="th-content">
+                    <span>Domain</span>
+                    <img src="../assets/icons/arrow-down.svg" alt="Sort by domain" class="sort-icon">
+                  </div>
+                </th>
+                <th scope="col" class="col-task sortable" data-sort="task">
+                  <div class="th-content">
+                    <span>Task Round</span>
+                    <img src="../assets/icons/arrow-down.svg" alt="Sort by task round" class="sort-icon">
+                  </div>
+                </th>
+                <th scope="col" class="col-interview sortable" data-sort="interview">
+                  <div class="th-content">
+                    <span>Second Interview Round</span>
+                    <img src="../assets/icons/arrow-down.svg" alt="Sort by interview round" class="sort-icon">
+                  </div>
+                </th>
+              </tr>
+            </thead>
+            <tbody id="tableBody">
+              <!-- Populated dynamically from GET /api/dashboard/candidate -->
+              <tr class="table-loading-row">
+                <td colspan="5" style="text-align: center; padding: 32px 16px; color: #94a3b8; font-size: 14px;">
+                  Loading application data...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Notification Toast Container -->
+  <div class="dashboard-toast" id="dashToast" role="status" aria-live="polite"></div>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/space-animations.js"></script>
+  <script src="../js/dashboard-user.js"></script>
+</body>
+</html>

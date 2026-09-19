@@ -1,0 +1,835 @@
+@import url('space-theme.css');
+
+/* ==========================================================================
+   Design Tokens & CSS Custom Properties (Extracted from Figma dkDMfZlX0Tbth0QtnsEU4B)
+   ========================================================================== */
+:root {
+  /* Typography */
+  --font-heading: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-body: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* Colors */
+  --color-black: #000000;
+  --color-white: #ffffff;
+  --color-text-muted: rgba(0, 0, 0, 0.56);
+  --color-placeholder: #8c8c8c;
+  --color-input-border: #000000;
+  --color-btn-border: #d9d9d9;
+  --color-btn-primary: #4965EF;
+  --color-btn-primary-hover: #3b54d6;
+  --color-btn-primary-active: #3146b8;
+  --color-link-blue: #4965EF;
+  --color-link-blue-hover: #38DDF8;
+  --color-error: #FF4D67;
+
+  /* Gradients */
+  --grad-welcome: linear-gradient(90deg, #ec12f0 0%, #0e31f7 100%);
+  --grad-labs: linear-gradient(180deg, #c210b7 50.48%, #300999 100%);
+  --grad-accent-h: linear-gradient(90deg, #e214e6 0%, #6022db 100%);
+  --grad-accent-v: linear-gradient(180deg, #e214e6 0%, #6022db 100%);
+
+  /* Dimensions & Radii */
+  --form-width: 404px;
+  --input-height: 32px;
+  --btn-height: 35px;
+  --social-btn-height: 32px;
+  --radius-input: 10px;
+  --radius-checkbox: 2px;
+  --radius-bar: 5px;
+
+  /* Transitions */
+  --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ==========================================================================
+   CSS Reset & Base Responsive Layout
+   ========================================================================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  margin: 0;
+  width: 100%;
+  min-height: 100%;
+  font-family: var(--font-body);
+  color: var(--color-black);
+  background-color: #ffffff;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* ==========================================================================
+   Background Illustration (Non-distorting & Non-overflowing)
+   ========================================================================== */
+.page-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: url('../assets/bg.png');
+  background-repeat: no-repeat;
+  background-position: right bottom;
+  background-size: cover;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.page-background::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 18% 50%, rgba(73, 101, 239, 0.08) 0%, transparent 55%),
+              radial-gradient(circle at 82% 75%, rgba(56, 221, 248, 0.05) 0%, transparent 45%);
+  pointer-events: none;
+}
+
+.page-background::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: 
+    radial-gradient(1px 1px at 80px 120px, rgba(255, 255, 255, 0.75), transparent),
+    radial-gradient(1.5px 1.5px at 240px 280px, rgba(56, 221, 248, 0.8), transparent),
+    radial-gradient(1px 1px at 420px 110px, rgba(255, 255, 255, 0.65), transparent),
+    radial-gradient(2px 2px at 640px 340px, rgba(255, 255, 255, 0.7), transparent),
+    radial-gradient(1.5px 1.5px at 890px 160px, rgba(56, 221, 248, 0.75), transparent),
+    radial-gradient(1px 1px at 1140px 220px, rgba(255, 255, 255, 0.8), transparent),
+    radial-gradient(1.5px 1.5px at 1320px 90px, rgba(255, 255, 255, 0.65), transparent);
+  background-size: 750px 750px;
+  opacity: 0.5;
+  pointer-events: none;
+  animation: spaceStarsTwinkle 12s ease-in-out infinite alternate;
+}
+
+/* ==========================================================================
+   Main Page Layout (Fluid Desktop & Mobile Container)
+   ========================================================================== */
+.page-container {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1440px;
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: clamp(40px, 6vh, 86px) clamp(24px, 4.5vw, 65px);
+  display: grid;
+  grid-template-columns: minmax(360px, 540px) minmax(400px, 1fr);
+  column-gap: clamp(30px, 4vw, 70px);
+  row-gap: 40px;
+  align-items: center;
+}
+
+/* ==========================================================================
+   Left Column: Login Section
+   ========================================================================== */
+.login-section {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 560px;
+  margin: 0 auto 0 0;
+}
+
+.header-group {
+  margin-bottom: clamp(16px, 2.5vh, 26px);
+  width: 100%;
+}
+
+.welcome-heading {
+  font-family: var(--font-heading);
+  font-weight: 900;
+  font-size: clamp(32px, 3.4vw, 48px);
+  line-height: 1.15;
+  letter-spacing: -0.5px;
+  background: var(--grad-welcome);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+  margin-bottom: 6px;
+  white-space: nowrap;
+}
+
+.sub-heading {
+  font-family: var(--font-heading);
+  font-weight: 900;
+  font-size: clamp(32px, 3.4vw, 48px);
+  line-height: 1.15;
+  letter-spacing: -0.5px;
+  color: var(--color-black);
+  white-space: nowrap;
+}
+
+/* Form Styles */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: var(--form-width);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: clamp(12px, 1.8vh, 18px);
+  position: relative;
+  width: 100%;
+}
+
+.form-label {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 21px;
+  color: var(--color-black);
+  margin-bottom: 5px;
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.form-input {
+  width: 100%;
+  height: var(--input-height);
+  border: 1px solid var(--color-input-border);
+  border-radius: var(--radius-input);
+  padding: 0 34px 0 12px;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 11px;
+  color: var(--color-black);
+  background: rgba(255, 255, 255, 0.88);
+  outline: none;
+  transition: var(--transition-smooth);
+}
+
+.form-input::placeholder {
+  color: var(--color-placeholder);
+  font-weight: 500;
+  font-size: 10px;
+}
+
+.form-input:focus {
+  border-color: #300999;
+  box-shadow: 0 0 0 3px rgba(96, 34, 219, 0.18);
+  background: #ffffff;
+}
+
+.form-input.has-error {
+  border-color: var(--color-error);
+  box-shadow: 0 0 0 2px rgba(217, 45, 32, 0.15);
+}
+
+/* Password eye button */
+.password-toggle {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  color: #666;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition-smooth);
+}
+
+.password-toggle:hover {
+  color: #000;
+}
+
+/* Error message label */
+.field-error {
+  font-size: 10px;
+  color: var(--color-error);
+  margin-top: 3px;
+  min-height: 14px;
+  font-weight: 500;
+  display: none;
+}
+
+.field-error.visible {
+  display: block;
+}
+
+/* Submit Button */
+.submit-btn {
+  width: 100%;
+  height: var(--btn-height);
+  background: linear-gradient(135deg, #4965EF 0%, #6846E8 100%);
+  color: var(--color-white);
+  border: none;
+  border-radius: var(--radius-input);
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 14px rgba(73, 101, 239, 0.35);
+}
+
+.submit-btn:hover {
+  background: linear-gradient(135deg, #5b74f5 0%, #7654ed 100%);
+  transform: translateY(-1.5px);
+  box-shadow: 0 6px 18px rgba(73, 101, 239, 0.45);
+}
+
+.submit-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(73, 101, 239, 0.3);
+}
+
+.submit-btn:focus-visible {
+  outline: 2px solid #38DDF8;
+  outline-offset: 2px;
+}
+
+/* Spinner inside button for loading state */
+.btn-spinner {
+  display: none;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+.submit-btn.loading .btn-spinner {
+  display: inline-block;
+}
+
+.submit-btn.loading .btn-text {
+  opacity: 0.8;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Divider */
+.divider {
+  position: relative;
+  width: 100%;
+  margin: clamp(18px, 2.5vh, 26px) 0 clamp(16px, 2.2vh, 22px) 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.divider-line {
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background-color: #0b0b0b;
+}
+
+.divider-text {
+  position: relative;
+  z-index: 2;
+  background-color: #ffffff;
+  padding: 0 8px;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 9px;
+  line-height: 14px;
+  color: var(--color-black);
+}
+
+/* Social Buttons */
+.social-actions {
+  display: flex;
+  gap: clamp(10px, 1.6vw, 24px);
+  width: 100%;
+  margin-bottom: clamp(20px, 3vh, 30px);
+}
+
+.social-btn {
+  flex: 1 1 0;
+  min-width: 0;
+  height: var(--social-btn-height);
+  border: 1px solid var(--color-btn-border);
+  border-radius: var(--radius-input);
+  background-color: rgba(255, 255, 255, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 12px;
+  color: var(--color-black);
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  backdrop-filter: blur(4px);
+  white-space: nowrap;
+  padding: 0 8px;
+}
+
+.social-btn:hover {
+  background-color: #ffffff;
+  border-color: #999999;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+
+.social-btn:active {
+  transform: translateY(0);
+}
+
+.social-btn:focus-visible {
+  outline: 2px solid #000000;
+  outline-offset: 1px;
+}
+
+.social-icon {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+/* Account Switch Prompt */
+.account-switch {
+  text-align: center;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 21px;
+  color: var(--color-black);
+}
+
+.switch-link {
+  color: var(--color-link-blue);
+  text-decoration: none;
+  font-weight: 500;
+  transition: var(--transition-smooth);
+  margin-left: 2px;
+}
+
+.switch-link:hover {
+  color: var(--color-link-blue-hover);
+  text-decoration: underline;
+}
+
+/* ==========================================================================
+   Right Column: Brand Hero Section (Robust Flex/Grid Layout)
+   ========================================================================== */
+.hero-section {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  min-width: 0;
+}
+
+/* Satellite Graphic */
+.satellite-container {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  margin-bottom: clamp(10px, 2vh, 20px);
+  pointer-events: none;
+}
+
+.satellite-img {
+  width: clamp(160px, 18vw, 255px);
+  max-width: 100%;
+  height: auto;
+  aspect-ratio: 255 / 170;
+  object-fit: contain;
+  filter: drop-shadow(0 12px 24px rgba(14, 49, 247, 0.15)) drop-shadow(0 0 18px rgba(56, 221, 248, 0.12));
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-12px) rotate(1.5deg);
+  }
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+}
+
+/* Hero Content Area: Holds Brand Block + Values Pillar Flexibly */
+.hero-content {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: clamp(20px, 3vw, 40px);
+  width: 100%;
+}
+
+/* Main Brand Typography */
+.brand-block {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.brand-title {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: clamp(52px, 6.6vw, 96px);
+  line-height: 1.05;
+  letter-spacing: -1.5px;
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-name {
+  color: var(--color-black);
+}
+
+.brand-highlight {
+  background: var(--grad-labs);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+}
+
+/* Accent Horizontal Line under Labs */
+.brand-accent-line {
+  width: clamp(180px, 20vw, 273px);
+  height: 10px;
+  border-radius: var(--radius-bar);
+  background: var(--grad-accent-h);
+  margin-top: clamp(8px, 1.2vw, 14px);
+}
+
+.brand-motto {
+  font-family: var(--font-heading);
+  font-weight: 300;
+  font-size: clamp(28px, 3.4vw, 48px);
+  line-height: 1.2;
+  color: var(--color-black);
+  margin-top: clamp(14px, 1.8vw, 24px);
+  letter-spacing: -0.5px;
+  white-space: nowrap;
+}
+
+/* Values Pillar */
+.values-pillar {
+  display: flex;
+  align-items: stretch;
+  gap: 16px;
+  flex-shrink: 0;
+  margin-bottom: 6px;
+}
+
+.values-accent-bar {
+  width: 10px;
+  height: clamp(130px, 12vw, 162.5px);
+  border-radius: var(--radius-bar);
+  background: var(--grad-accent-v);
+  flex-shrink: 0;
+}
+
+.values-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.values-list li {
+  font-family: var(--font-heading);
+  font-weight: 500;
+  font-size: clamp(17px, 1.7vw, 24px);
+  line-height: 1.25;
+  color: var(--color-text-muted);
+  letter-spacing: -0.2px;
+  transition: var(--transition-smooth);
+}
+
+.values-list li:hover {
+  color: var(--color-black);
+  transform: translateX(4px);
+  text-shadow: 0 0 8px rgba(73, 101, 239, 0.15);
+}
+
+/* ==========================================================================
+   Toast Notification System
+   ========================================================================== */
+.toast-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: calc(100vw - 48px);
+}
+
+.toast {
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.16);
+  opacity: 0;
+  transform: translateY(16px);
+  animation: toastIn 0.3s forwards cubic-bezier(0.2, 0, 0, 1);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  word-break: break-word;
+}
+
+.toast.success {
+  background-color: #2b7a32;
+}
+
+.toast.info {
+  background-color: #1e3a8a;
+}
+
+.toast.error {
+  background-color: #b91c1c;
+}
+
+@keyframes toastIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes toastOut {
+  to {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+/* ==========================================================================
+   Responsive Breakpoints
+   ========================================================================== */
+
+/* Medium Desktop & Landscape Tablet (1024px - 1199px) */
+@media (max-width: 1199px) {
+  .page-container {
+    grid-template-columns: minmax(320px, 440px) minmax(320px, 1fr);
+    column-gap: 32px;
+    row-gap: 30px;
+    padding: 40px 24px;
+  }
+
+  .welcome-heading,
+  .sub-heading {
+    font-size: clamp(26px, 3vw, 36px);
+  }
+
+  .hero-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .values-pillar {
+    margin-top: 8px;
+  }
+}
+
+/* Tablet Portrait & Small Screens (< 900px): Clean Single Column */
+@media (max-width: 899px) {
+  body {
+    justify-content: flex-start;
+  }
+
+  .page-container {
+    display: flex;
+    flex-direction: column;
+    padding: clamp(24px, 4vw, 36px) clamp(16px, 4vw, 28px);
+    row-gap: 28px;
+    min-height: auto;
+    max-width: 540px;
+  }
+
+  /* Requirement: Hero/branding section appears above the form */
+  .hero-section {
+    order: 1;
+    width: 100%;
+    align-items: flex-start;
+  }
+
+  .satellite-container {
+    justify-content: flex-end;
+    margin-bottom: 6px;
+  }
+
+  .satellite-img {
+    width: clamp(100px, 20vw, 130px);
+  }
+
+  .brand-title {
+    font-size: clamp(38px, 9vw, 54px);
+  }
+
+  .brand-motto {
+    font-size: clamp(22px, 5vw, 30px);
+    margin-top: 10px;
+  }
+
+  .hero-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    width: 100%;
+  }
+
+  .values-pillar {
+    margin-top: 6px;
+    gap: 12px;
+  }
+
+  .values-accent-bar {
+    height: 100px;
+    width: 8px;
+  }
+
+  .values-list li {
+    font-size: 15px;
+  }
+
+  /* Login Card on mobile/tablet portrait for optimal contrast over Earth */
+  .login-section {
+    order: 2;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-radius: 18px;
+    padding: clamp(20px, 4vw, 28px) clamp(16px, 4vw, 24px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+  }
+
+  .login-form {
+    max-width: 100%;
+  }
+
+  .welcome-heading,
+  .sub-heading {
+    white-space: normal;
+    font-size: clamp(24px, 5.5vw, 34px);
+  }
+
+  .form-input {
+    height: 38px;
+    font-size: 13px;
+  }
+
+  .submit-btn {
+    height: 40px;
+    font-size: 14px;
+  }
+
+  .social-btn {
+    height: 38px;
+  }
+}
+
+/* Very Small Mobile (< 480px) */
+@media (max-width: 479px) {
+  .page-container {
+    padding: 20px 12px 36px 12px;
+    row-gap: 20px;
+  }
+
+  .brand-title {
+    font-size: clamp(34px, 10vw, 42px);
+  }
+
+  .brand-accent-line {
+    width: clamp(140px, 45vw, 180px);
+    height: 7px;
+  }
+
+  .brand-motto {
+    font-size: clamp(19px, 5.5vw, 22px);
+    margin-top: 8px;
+  }
+
+  .social-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .social-btn {
+    width: 100%;
+    height: 38px;
+  }
+
+  .satellite-img {
+    width: 85px;
+  }
+
+  .values-accent-bar {
+    height: 85px;
+  }
+
+  .values-list li {
+    font-size: 14px;
+  }
+
+  .login-section {
+    padding: 18px 14px;
+    border-radius: 14px;
+  }
+}
+
+/* Extra Small Devices (<= 375px) */
+@media (max-width: 375px) {
+  .welcome-heading,
+  .sub-heading {
+    font-size: 22px;
+  }
+
+  .brand-title {
+    font-size: 34px;
+  }
+
+  .brand-motto {
+    font-size: 18px;
+  }
+
+  .form-label {
+    font-size: 13px;
+  }
+
+
+
+  .account-switch {
+    font-size: 13px;
+  }
+}

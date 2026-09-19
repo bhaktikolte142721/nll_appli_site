@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Application Details (3 of 3) - New Leap Labs</title>
+  <meta name="description" content="Academic and domain profile step for New Leap Labs application.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Commissioner:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/app-pages.css">
+</head>
+<body>
+  <div class="page-background" aria-hidden="true"></div>
+
+  <main class="app-card-container space-reveal-scale" id="appCard3" role="dialog" aria-labelledby="academicHeading">
+    <!-- Header with Step Indicator & Close -->
+    <header class="card-header">
+      <div class="header-title-wrap">
+        <h1 class="card-title" id="academicHeading">Personal information</h1>
+        <span class="step-indicator" aria-label="Step 3 of 3">3 of 3<span class="step-progress-track" aria-hidden="true">●────●────●</span></span>
+      </div>
+      <a href="../login.html" class="close-btn" aria-label="Close application" title="Close and return to login">
+        <img src="../assets/icons/close.svg" alt="" class="close-icon">
+      </a>
+    </header>
+
+    <!-- Main Form Content -->
+    <div id="formContent">
+      <form class="app-form" id="appForm3" novalidate>
+        <!-- Branch Field -->
+        <div class="field-group">
+          <div class="input-box">
+            <div class="input-content">
+              <input 
+                type="text" 
+                id="branchInput" 
+                name="branch" 
+                class="field-input" 
+                placeholder="Branch" 
+                required
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- Academic Year Field -->
+        <div class="field-group">
+          <div class="input-box">
+            <div class="input-content">
+              <input 
+                type="text" 
+                id="yearInput" 
+                name="academicYear" 
+                class="field-input" 
+                placeholder="Academic Year" 
+                required
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- Domain Field -->
+        <div class="field-group">
+          <div class="input-box">
+            <div class="input-content">
+              <input 
+                type="text" 
+                id="domainInput" 
+                name="domain" 
+                class="field-input" 
+                placeholder="Domain"
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- About Textarea Box -->
+        <div class="textarea-box">
+          <textarea 
+            id="aboutTextarea" 
+            name="about" 
+            class="app-textarea" 
+            placeholder="About"
+          ></textarea>
+        </div>
+
+        <span class="field-error-msg" id="app3Error" aria-live="polite"></span>
+
+        <!-- Save / Submit Button -->
+        <button type="submit" class="app-primary-btn" id="saveInfoBtn3">
+          <span class="btn-text">Save information</span>
+          <span class="btn-spinner" aria-hidden="true"></span>
+        </button>
+      </form>
+    </div>
+
+    <!-- Success / Completion State -->
+    <div class="completion-banner" id="completeBanner">
+      <div class="completion-icon">
+        <img src="../assets/icons/check-green.svg" alt="Success" width="32" height="32">
+      </div>
+      <h2 class="completion-title">Application Submitted!</h2>
+      <p class="completion-desc">Thank you for submitting your application to New Leap Labs. Our team will review your credentials shortly.</p>
+      <a href="dashboard-user.html" class="app-primary-btn" id="goToDashboardBtn" style="text-decoration: none; max-width: 240px; margin-top: 16px;">
+        Go to Dashboard
+      </a>
+      <a href="../login.html" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; font-size: 14px; margin-top: 12px; display: inline-block;">
+        Return to Login
+      </a>
+    </div>
+  </main>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/space-animations.js"></script>
+  <script src="../js/app-pages.js"></script>
+</body>
+</html>

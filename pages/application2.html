@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Personal Information (2 of 3) - New Leap Labs</title>
+  <meta name="description" content="Personal information step for New Leap Labs application.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Commissioner:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/app-pages.css">
+</head>
+<body>
+  <div class="page-background" aria-hidden="true"></div>
+
+  <main class="app-card-container space-reveal-scale" id="appCard2" role="dialog" aria-labelledby="personalHeading">
+    <!-- Header with Step Indicator & Close -->
+    <header class="card-header">
+      <div class="header-title-wrap">
+        <h1 class="card-title" id="personalHeading">Personal information</h1>
+        <span class="step-indicator" aria-label="Step 2 of 3">2 of 3<span class="step-progress-track" aria-hidden="true">●────●────○</span></span>
+      </div>
+      <a href="../login.html" class="close-btn" aria-label="Close application" title="Close and return to login">
+        <img src="../assets/icons/close.svg" alt="" class="close-icon">
+      </a>
+    </header>
+
+    <!-- Personal Information Form -->
+    <form class="app-form" id="appForm2" novalidate>
+      <!-- Full Name Field -->
+      <div class="field-group">
+        <div class="input-box">
+          <div class="input-content">
+            <input 
+              type="text" 
+              id="fullNameInput" 
+              name="fullName" 
+              class="field-input" 
+              placeholder="Full name" 
+              required
+              autocomplete="name"
+            >
+          </div>
+        </div>
+      </div>
+
+      <!-- Gender Radio Selection -->
+      <div class="gender-group" role="radiogroup" aria-label="Gender selection">
+        <span class="gender-label-main">Gender:</span>
+        <label class="radio-option">
+          <input type="radio" name="gender" value="male" checked>
+          <span class="custom-radio" aria-hidden="true"></span>
+          <span class="radio-text">Male</span>
+        </label>
+        <label class="radio-option">
+          <input type="radio" name="gender" value="female">
+          <span class="custom-radio" aria-hidden="true"></span>
+          <span class="radio-text">Female</span>
+        </label>
+      </div>
+
+      <!-- Privacy Info Banner -->
+      <div class="info-banner" aria-live="polite">
+        <img src="../assets/icons/info.svg" alt="Information">
+        <span>The phone number and birthday are only visible to you</span>
+      </div>
+
+      <!-- Phone Number Row (Country Code + Phone Input) -->
+      <div class="field-group">
+        <div class="phone-row">
+          <div class="country-code-select">
+            <span id="countryCodeText">+ 91</span>
+            <span class="chevron-icon"></span>
+            <select id="countryCodeSelect" aria-label="Select Country Code">
+              <option value="+ 91">+ 91 (IN)</option>
+              <option value="+ 1">+ 1 (US)</option>
+              <option value="+ 44">+ 44 (UK)</option>
+              <option value="+ 61">+ 61 (AU)</option>
+              <option value="+ 81">+ 81 (JP)</option>
+              <option value="+ 49">+ 49 (DE)</option>
+            </select>
+          </div>
+          <div class="input-box" style="flex: 1;">
+            <div class="input-content">
+              <input 
+                type="tel" 
+                id="phoneInput" 
+                name="phone" 
+                class="field-input" 
+                placeholder="Phone number"
+                autocomplete="tel"
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Birthday Field with Calendar Icon -->
+      <div class="field-group">
+        <div class="input-box">
+          <div class="input-content">
+            <input 
+              type="text" 
+              id="birthdayInput" 
+              name="birthday" 
+              class="field-input" 
+              placeholder="Birthday"
+              onfocus="(this.type='date')"
+              onblur="if(!this.value)this.type='text'"
+            >
+          </div>
+          <div class="input-right-action">
+            <span class="optional-tag">Optional</span>
+            <button type="button" class="action-icon-btn" aria-label="Select date" onclick="document.getElementById('birthdayInput').focus(); document.getElementById('birthdayInput').showPicker?.()">
+              <img src="../assets/icons/calendar.svg" alt="" class="status-icon">
+            </button>
+          </div>
+        </div>
+        <p class="field-hint">Let us know about your birthday so as not to miss a gift</p>
+        <span class="field-error-msg" id="app2Error" aria-live="polite"></span>
+      </div>
+
+      <!-- Save Button -->
+      <button type="submit" class="app-primary-btn" id="saveInfoBtn2">
+        <span class="btn-text">Save information</span>
+        <span class="btn-spinner" aria-hidden="true"></span>
+      </button>
+    </form>
+  </main>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/space-animations.js"></script>
+  <script src="../js/app-pages.js"></script>
+</body>
+</html>

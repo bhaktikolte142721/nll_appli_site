@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register - New Leap Labs</title>
+  <meta name="description" content="Register an account for New Leap Labs.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Commissioner:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/app-pages.css">
+</head>
+<body>
+  <div class="page-background" aria-hidden="true"></div>
+
+  <main class="app-card-container space-reveal-scale" id="appCard1" role="dialog" aria-labelledby="registerHeading">
+    <!-- Header with Underline & Close -->
+    <header class="card-header">
+      <h1 class="card-title accent-underline" id="registerHeading">Register</h1>
+      <a href="../login.html" class="close-btn" aria-label="Close registration" title="Close and return to login">
+        <img src="../assets/icons/close.svg" alt="" class="close-icon">
+      </a>
+    </header>
+
+    <!-- Social Sign In Circles -->
+    <div class="social-circle-row" aria-label="Register with Social Providers">
+      <button type="button" class="social-circle-btn" aria-label="Register with Apple">
+        <img src="../assets/icons/apple-circle.svg" alt="Apple">
+      </button>
+      <button type="button" class="social-circle-btn" aria-label="Register with Google">
+        <img src="../assets/icons/google-circle.svg" alt="Google">
+      </button>
+    </div>
+
+    <!-- Divider text -->
+    <p class="or-email-divider">or register with email</p>
+
+    <!-- Registration Form -->
+    <form class="app-form" id="appForm1" novalidate>
+      <!-- Email Field -->
+      <div class="field-group">
+        <div class="input-box" id="emailBox">
+          <div class="input-content">
+            <label for="appEmailInput" class="floating-label">Email adress</label>
+            <input 
+              type="email" 
+              id="appEmailInput" 
+              name="email" 
+              class="field-input" 
+              placeholder="example@mail.com" 
+              required
+              autocomplete="email"
+            >
+          </div>
+          <div class="input-right-action">
+            <img src="../assets/icons/check-green.svg" alt="Valid email" class="status-icon" id="emailStatusIcon">
+          </div>
+        </div>
+      </div>
+
+      <!-- Password Field (Active / Focused state in Figma) -->
+      <div class="field-group">
+        <div class="input-box active-focus" id="passwordBox">
+          <div class="input-content">
+            <label for="appPasswordInput" class="floating-label">Password</label>
+            <input 
+              type="password" 
+              id="appPasswordInput" 
+              name="password" 
+              class="field-input" 
+              placeholder="••••••••" 
+              required
+              autocomplete="new-password"
+            >
+          </div>
+          <div class="input-right-action">
+            <button type="button" class="action-icon-btn" id="appPasswordToggle" aria-label="Toggle password visibility">
+              <img src="../assets/icons/eye.svg" alt="" class="status-icon">
+            </button>
+          </div>
+        </div>
+        <p class="field-hint">8+ characters</p>
+        <span class="field-error-msg" id="app1Error" aria-live="polite"></span>
+      </div>
+
+      <!-- Action Button -->
+      <button type="submit" class="app-primary-btn" id="createAccountBtn">
+        <span class="btn-text">Create account</span>
+        <span class="btn-spinner" aria-hidden="true"></span>
+      </button>
+
+      <!-- Checkbox: Send promotions (Below button in Figma) -->
+      <label class="checkbox-field" id="checkboxField">
+        <input type="checkbox" id="newsCheckbox" name="news">
+        <span class="custom-box" aria-hidden="true"></span>
+        <span class="checkbox-label">Send me news and promotions</span>
+      </label>
+
+
+    </form>
+  </main>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/space-animations.js"></script>
+  <script src="../js/app-pages.js"></script>
+</body>
+</html>

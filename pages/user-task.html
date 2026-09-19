@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task Assignment - New Leap Labs (User)</title>
+  <meta name="description" content="Candidate task assignment review and submission portal for New Leap Labs.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/user-task.css">
+</head>
+<body class="task-user-body">
+
+  <!-- Left Sidebar Navigation (Figma Group 21: 269px x 1024px) -->
+  <aside class="dashboard-sidebar" id="sidebar" aria-label="Candidate Navigation">
+    <!-- Top Profile Avatar -->
+    <div class="sidebar-profile-section">
+      <div class="profile-avatar-wrap">
+        <img src="../assets/icons/profile-circle.svg" alt="Candidate Profile" class="profile-avatar-img">
+      </div>
+      <span class="profile-label">Profile</span>
+    </div>
+
+    <!-- Navigation Menu Items -->
+    <nav class="sidebar-nav" aria-label="Candidate Menu">
+      <a href="dashboard-user.html" class="nav-item" id="navDashboard">
+        <span>Dashboard</span>
+      </a>
+      <a href="user-task.html" class="nav-item active" aria-current="page" id="navTaskAssignment">
+        <span>Task Assignment</span>
+      </a>
+    </nav>
+
+    <!-- Bottom Logout Action -->
+    <div class="sidebar-footer">
+      <a href="../login.html" class="logout-action-btn" id="logoutBtn" title="Sign out and return to Login">
+        <span class="logout-text">Logout</span>
+        <img src="../assets/icons/logout.svg" alt="" class="logout-icon" aria-hidden="true">
+      </a>
+    </div>
+  </aside>
+
+  <!-- Mobile Sidebar Overlay & Topbar -->
+  <div class="mobile-topbar" id="mobileTopbar">
+    <button type="button" class="mobile-menu-toggle" id="menuToggle" aria-label="Toggle navigation menu">
+      <span class="hamburger-bar"></span>
+      <span class="hamburger-bar"></span>
+      <span class="hamburger-bar"></span>
+    </button>
+    <span class="mobile-logo-title">Task Assignment</span>
+    <div class="mobile-profile-thumb">
+      <img src="../assets/icons/profile-circle.svg" alt="Profile" width="32" height="32">
+    </div>
+  </div>
+  <div class="sidebar-backdrop" id="sidebarBackdrop" aria-hidden="true"></div>
+
+  <!-- Main User Task Content Area -->
+  <main class="task-main" id="mainContent">
+    <div class="task-content-container">
+
+      <!-- Floating Satellite Illustration (Figma Node 1:1332) -->
+      <div class="floating-satellite" aria-hidden="true">
+        <img src="../assets/user-task-satellite.png" alt="Satellite" class="satellite-img">
+      </div>
+
+      <!-- Header Titles Section (Figma Nodes 1:1333 & 1:1334) -->
+      <header class="task-header-section space-reveal">
+        <h1 class="page-title" id="taskPageTitle">Task Assignment</h1>
+        <p class="page-subtitle" id="taskPageSubtitle">You have been assigned a task........</p>
+      </header>
+
+      <!-- Task Content Card (Figma Group 19 / Rectangle 21 & Node 1:1325) -->
+      <section class="task-card-wrapper space-reveal" aria-label="Assigned Task Instructions">
+        <div class="mission-brief-badge" aria-hidden="true">
+          <span class="badge-dot">●</span> MISSION BRIEF // ROUND 01
+        </div>
+        <div class="task-spec-card" id="taskSpecCard">
+          <h2 class="task-spec-title" id="taskTitleDisplay">Loading task assignment...</h2>
+          <div class="task-deadline-badge" id="taskDeadlineContainer" style="display: none;">
+            <span class="deadline-icon" aria-hidden="true">⏳</span>
+            <span class="deadline-label">Deadline:</span>
+            <span class="deadline-val" id="taskDeadlineDisplay"></span>
+          </div>
+          <div class="task-instructions-text" id="taskInstructionsText">
+            Loading assigned task specifications...
+          </div>
+        </div>
+
+        <!-- Task Action & Upload Button (Figma Group 13 / Rectangle 22 & Node 1:1328) -->
+        <div class="task-action-row">
+          <!-- File Submission Status Badge (Visible when file selected or submitted) -->
+          <div class="submission-file-status" id="submissionStatus" style="display: none;">
+            <span class="file-icon" aria-hidden="true">📄</span>
+            <span class="file-name-label" id="uploadedFileName"></span>
+            <span class="status-badge" id="submissionBadge">Submitted</span>
+          </div>
+
+          <!-- Hidden Native File Input -->
+          <input type="file" id="taskFileInput" class="visually-hidden" accept=".pdf,.doc,.docx,.zip,.tar,.gz,.txt,.png,.jpg,.jpeg">
+
+          <!-- Upload Pill Button -->
+          <button type="button" class="btn-upload-task" id="btnUploadTask" title="Upload task submission">
+            <span class="upload-icon-wrap" aria-hidden="true">
+              <img src="../assets/icons/cloud-upload.svg" alt="" class="upload-cloud-icon">
+            </span>
+            <span class="upload-btn-text" id="uploadBtnText">Upload</span>
+          </button>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Submission Confirmation Modal -->
+  <div class="task-modal-backdrop" id="submitModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" style="display: none;">
+    <div class="task-modal-card">
+      <h2 class="modal-title" id="modalTitle">Confirm Task Submission</h2>
+      <p class="modal-desc">
+        Are you ready to submit your task solution? Once submitted, your submission will be reviewed by the New Leap Labs evaluation committee.
+      </p>
+      <div class="modal-file-preview">
+        <span class="preview-icon">📎</span>
+        <div class="preview-details">
+          <strong class="preview-filename" id="modalFileName"></strong>
+          <span class="preview-filesize" id="modalFileSize"></span>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn-modal-cancel" id="btnCancelModal">Cancel</button>
+        <button type="button" class="btn-modal-confirm" id="btnConfirmSubmit">Confirm & Submit</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="dashboard-toast" id="dashToast" role="status" aria-live="polite"></div>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/space-animations.js"></script>
+  <script src="../js/user-task.js"></script>
+</body>
+</html>

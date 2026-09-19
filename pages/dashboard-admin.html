@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - New Leap Labs</title>
+  <meta name="description" content="Admin candidate review and team building dashboard for New Leap Labs.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/dashboard-admin.css">
+</head>
+<body class="dashboard-body">
+
+  <!-- Left Sidebar Navigation (Figma Group 21: 269px x 1024px) -->
+  <aside class="dashboard-sidebar" id="sidebar" aria-label="Admin Navigation">
+    <!-- Top Profile Avatar -->
+    <div class="sidebar-profile-section">
+      <div class="profile-avatar-wrap">
+        <img src="../assets/icons/profile-circle.svg" alt="Admin Profile" class="profile-avatar-img">
+      </div>
+      <span class="profile-label">Profile</span>
+    </div>
+
+    <!-- Navigation Menu Items -->
+    <nav class="sidebar-nav" aria-label="Admin Menu">
+      <a href="dashboard-admin.html" class="nav-item active" aria-current="page" id="navDashboard">
+        <span>Dashboard</span>
+      </a>
+      <a href="task-assignment.html" class="nav-item" id="navTaskAssignment">
+        <span>Task Assignment</span>
+      </a>
+      <a href="dashboard-admin.html?stage=SECOND_INTERVIEW" class="nav-item" id="navSecondInterviews">
+        <span>Second Interviews</span>
+      </a>
+    </nav>
+
+    <!-- Bottom Logout Action -->
+    <div class="sidebar-footer">
+      <a href="../login.html" class="logout-action-btn" id="logoutBtn" title="Sign out and return to Login">
+        <span class="logout-text">Logout</span>
+        <img src="../assets/icons/logout.svg" alt="" class="logout-icon" aria-hidden="true">
+      </a>
+    </div>
+  </aside>
+
+  <!-- Mobile Sidebar Overlay & Header -->
+  <div class="mobile-topbar" id="mobileTopbar">
+    <button type="button" class="mobile-menu-toggle" id="menuToggle" aria-label="Toggle navigation menu">
+      <span class="hamburger-bar"></span>
+      <span class="hamburger-bar"></span>
+      <span class="hamburger-bar"></span>
+    </button>
+    <span class="mobile-logo-title">New Leap Labs (Admin)</span>
+    <div class="mobile-profile-thumb">
+      <img src="../assets/icons/profile-circle.svg" alt="Admin Profile" width="32" height="32">
+    </div>
+  </div>
+  <div class="sidebar-backdrop" id="sidebarBackdrop" aria-hidden="true"></div>
+
+  <!-- Main Admin Dashboard Content Area -->
+  <main class="dashboard-main" id="mainContent">
+    <div class="main-content-container">
+      
+      <!-- Dashboard Page Title -->
+      <h1 class="page-title" id="pageTitle">Dashboard</h1>
+
+      <!-- Hero Banner Card (Welcome Admin - Group 16 / Rectangle 16) -->
+      <section class="hero-welcome-card space-reveal" aria-labelledby="heroTitle">
+        <div class="hero-card-content">
+          <h2 class="hero-title" id="heroTitle">Welcome Admin</h2>
+          <p class="hero-description">
+            Let's build the team! You have <span class="applications-count-dynamic" id="dynamicAppCount">[X]</span> new applications to review and shortlist
+          </p>
+        </div>
+      </section>
+
+      <!-- Admin Statistics Metric Cards (6 Pipeline Cards) -->
+      <section class="admin-stats-grid space-reveal-stagger" aria-label="Application Metrics">
+        <!-- Metric Card 1: Applications -->
+        <div class="stat-card stat-card-1 space-reveal" id="statNewApplications" style="cursor: pointer;" title="All Applications">
+          <span class="stat-number" id="countNewApps">00</span>
+          <span class="stat-label">Applications</span>
+        </div>
+
+        <!-- Metric Card 2: Task Assigned -->
+        <div class="stat-card stat-card-3 space-reveal" id="statTaskAssigned" style="cursor: pointer;" title="Task Assigned">
+          <span class="stat-number" id="countTaskAssigned">00</span>
+          <span class="stat-label">Task Assigned</span>
+        </div>
+
+        <!-- Metric Card 3: Task Submitted -->
+        <div class="stat-card stat-card-2 space-reveal" id="statTaskRound" style="cursor: pointer;" title="Task Submitted">
+          <span class="stat-number" id="countTask">00</span>
+          <span class="stat-label">Task Submitted</span>
+        </div>
+
+        <!-- Metric Card 4: Second Interview -->
+        <div class="stat-card stat-card-1 space-reveal" id="statInterviewRound" style="cursor: pointer;" title="Second Interview">
+          <span class="stat-number" id="countInterview">00</span>
+          <span class="stat-label">Second Interview</span>
+        </div>
+
+        <!-- Metric Card 5: Selected -->
+        <div class="stat-card stat-card-4 space-reveal" id="statFinalSelection" style="cursor: pointer;" title="Selected Candidates">
+          <span class="stat-number" id="countFinal">00</span>
+          <span class="stat-label">Selected</span>
+        </div>
+
+        <!-- Metric Card 6: Rejected -->
+        <div class="stat-card stat-card-2 space-reveal" id="statRejected" style="cursor: pointer;" title="Rejected Candidates">
+          <span class="stat-number" id="countRejected">00</span>
+          <span class="stat-label">Rejected</span>
+        </div>
+      </section>
+
+      <!-- Selection Status Data Card (Frame - 1102px x 539px) -->
+      <section class="status-table-card space-reveal" aria-label="Candidate Selection Status">
+        <!-- Card Header with Title and Actions -->
+        <header class="table-card-header">
+          <div class="header-info-group">
+            <div class="title-badge-row">
+              <h3 class="table-card-title">New Leap Lab</h3>
+              <span class="status-live-badge" id="liveBadge">Live Status</span>
+            </div>
+            <p class="table-card-subtitle">selection status....</p>
+          </div>
+
+          <div class="header-actions-group">
+            <button type="button" class="action-ghost-btn" id="deleteBtn" aria-label="Delete selection">
+              <img src="../assets/icons/trash.svg" alt="" class="action-icon" aria-hidden="true">
+              <span>Delete</span>
+            </button>
+            <button type="button" class="action-ghost-btn" id="filterBtn" aria-label="Filter status rows">
+              <img src="../assets/icons/filters.svg" alt="" class="action-icon" aria-hidden="true">
+              <span>Filters</span>
+            </button>
+            <button type="button" class="action-export-btn" id="exportBtn" aria-label="Export status data">
+              <img src="../assets/icons/cloud-download.svg" alt="" class="action-icon" aria-hidden="true">
+              <span>Export</span>
+            </button>
+          </div>
+        </header>
+
+        <!-- Responsive Table Container -->
+        <div class="table-responsive-wrapper">
+          <table class="status-data-table" id="statusTable">
+            <thead>
+              <tr>
+                <th scope="col" class="col-sr">
+                  <span class="th-label">Sr. No</span>
+                </th>
+                <th scope="col" class="col-name sortable" data-sort="name">
+                  <div class="th-content">
+                    <span>Candidate</span>
+                    <img src="../assets/icons/arrow-down.svg" alt="Sort by name" class="sort-icon">
+                  </div>
+                </th>
+                <th scope="col" class="col-domain sortable" data-sort="domain">
+                  <div class="th-content">
+                    <span>Domain</span>
+                    <img src="../assets/icons/arrow-down.svg" alt="Sort by domain" class="sort-icon">
+                  </div>
+                </th>
+                <th scope="col" class="col-task sortable" data-sort="task">
+                  <div class="th-content">
+                    <span>Task Round</span>
+                    <img src="../assets/icons/arrow-down.svg" alt="Sort by task round" class="sort-icon">
+                  </div>
+                </th>
+                <th scope="col" class="col-interview sortable" data-sort="interview">
+                  <div class="th-content">
+                    <span>Second Interview</span>
+                    <img src="../assets/icons/arrow-down.svg" alt="Sort by interview round" class="sort-icon">
+                  </div>
+                </th>
+                <th scope="col" class="col-status sortable" data-sort="status">
+                  <div class="th-content">
+                    <span>Current Status</span>
+                    <img src="../assets/icons/arrow-down.svg" alt="Sort by status" class="sort-icon">
+                  </div>
+                </th>
+                <th scope="col" class="col-action">
+                  <div class="th-content">
+                    <span>Action</span>
+                  </div>
+                </th>
+              </tr>
+            </thead>
+            <tbody id="tableBody">
+              <tr class="table-loading-row">
+                <td colspan="7" style="text-align: center; padding: 40px 16px; color: #94a3b8; font-size: 14px;">
+                  Loading candidate applications...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Modal: Schedule Second Interview -->
+  <div class="dash-modal-backdrop" id="scheduleInterviewModal" role="dialog" aria-modal="true" style="display: none;">
+    <div class="dash-modal-card">
+      <div class="dash-modal-header">
+        <div>
+          <span class="modal-eyebrow">STAGE 02</span>
+          <h2 class="dash-modal-title">Schedule Second Interview</h2>
+        </div>
+        <button type="button" class="btn-close-modal" id="btnCloseScheduleModal" aria-label="Close modal">&times;</button>
+      </div>
+      <form id="scheduleInterviewForm">
+        <div class="dash-form-group">
+          <label class="dash-form-label">Candidate:</label>
+          <strong id="scheduleCandidateName" style="color: #38ddf8; font-size: 15px;">—</strong>
+        </div>
+        <div class="dash-form-group">
+          <label for="scheduleDateTimeInput" class="dash-form-label">Interview Date & Time <span style="color:#ef4444;">*</span></label>
+          <input type="datetime-local" id="scheduleDateTimeInput" class="dash-form-input" required>
+        </div>
+        <div class="dash-form-group">
+          <label for="scheduleModeSelect" class="dash-form-label">Interview Mode</label>
+          <select id="scheduleModeSelect" class="dash-form-select">
+            <option value="Online (Google Meet)">Online (Google Meet)</option>
+            <option value="Online (Zoom)">Online (Zoom)</option>
+            <option value="In-Person (New Leap Labs HQ)">In-Person (New Leap Labs HQ)</option>
+          </select>
+        </div>
+        <div class="dash-form-group">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
+            <label for="scheduleLocationInput" class="dash-form-label" style="margin-bottom: 0;">Meeting Link / Room Location</label>
+            <button type="button" class="btn-gen-meet" id="btnGenGoogleMeet">🔗 Generate Google Meet Link</button>
+          </div>
+          <input type="text" id="scheduleLocationInput" class="dash-form-input" placeholder="e.g. https://meet.google.com/xyz-abc or Lab 302">
+        </div>
+        <div class="dash-form-group">
+          <label for="scheduleNotesInput" class="dash-form-label">Instructions / Interview Notes</label>
+          <textarea id="scheduleNotesInput" class="dash-form-textarea" rows="3" placeholder="Additional details for the candidate or interviewer panel..."></textarea>
+        </div>
+        <div class="dash-modal-actions">
+          <button type="button" class="btn-modal-cancel" id="btnCancelScheduleModal">Cancel</button>
+          <button type="submit" class="btn-modal-primary" id="btnSubmitSchedule">Schedule Interview</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Record Interview Feedback & Evaluate -->
+  <div class="dash-modal-backdrop" id="interviewFeedbackModal" role="dialog" aria-modal="true" style="display: none;">
+    <div class="dash-modal-card modal-scrollable" style="max-width: 620px;">
+      <div class="dash-modal-header">
+        <div>
+          <span class="modal-eyebrow" style="color: #b388ff;">STAGE 02 EVALUATION</span>
+          <h2 class="dash-modal-title">Record Interview Q&amp;A &amp; Feedback</h2>
+        </div>
+        <button type="button" class="btn-close-modal" id="btnCloseFeedbackModal" aria-label="Close modal">&times;</button>
+      </div>
+      <form id="interviewFeedbackForm">
+        <!-- Candidate info and Meet launcher -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+          <div>
+            <span style="font-size: 12px; color: #94a3b8; display: block;">Candidate:</span>
+            <strong id="feedbackCandidateName" style="color: #38ddf8; font-size: 16px;">—</strong>
+          </div>
+          <span class="status-live-badge" id="feedbackInterviewRoundBadge">Second Interview</span>
+        </div>
+
+        <!-- Google Meet Quick Launch Bar -->
+        <div class="meet-launcher-bar" id="feedbackMeetBar" style="display: none;">
+          <div class="meet-launcher-info">
+            <span class="meet-launcher-label">Interview Meeting Room</span>
+            <span class="meet-launcher-url" id="feedbackMeetUrl">—</span>
+          </div>
+          <a href="#" id="btnLaunchMeet" target="_blank" rel="noopener noreferrer" class="btn-launch-meet">
+            Launch Google Meet ↗
+          </a>
+        </div>
+
+        <!-- Live Q&A Recording Section -->
+        <div class="interview-qa-section">
+          <div class="qa-section-header">
+            <h4 class="qa-section-title">Interview Questions &amp; Candidate Answers</h4>
+            <span class="qa-count-badge" id="qaCountBadge">0 Recorded</span>
+          </div>
+          <div class="qa-list-container" id="qaListContainer">
+            <div class="qa-empty-placeholder">No questions recorded yet. Add questions asked during the interview below.</div>
+          </div>
+          <div class="qa-input-box">
+            <input type="text" id="qaQuestionInput" class="dash-form-input" placeholder="Question asked (e.g. Subsystem architecture, RTOS, state machines)...">
+            <textarea id="qaAnswerInput" class="dash-form-textarea" rows="2" placeholder="Candidate's response summary / technical observations..."></textarea>
+            <button type="button" class="btn-add-qa" id="btnAddQuestionBtn">+ Add Question &amp; Answer</button>
+          </div>
+        </div>
+
+        <!-- Overall Evaluation & Notes -->
+        <div class="dash-form-group">
+          <label for="feedbackScoreInput" class="dash-form-label">Evaluation Score (0 - 100)</label>
+          <input type="number" id="feedbackScoreInput" class="dash-form-input" min="0" max="100" placeholder="e.g. 88" required>
+        </div>
+        <div class="dash-form-group">
+          <label for="feedbackNotesInput" class="dash-form-label">Evaluation &amp; Interview Notes <span style="color:#ef4444;">*</span></label>
+          <textarea id="feedbackNotesInput" class="dash-form-textarea" rows="3" placeholder="Overall technical assessment, problem-solving skills, culture fit, and panel notes..." required></textarea>
+        </div>
+        <div class="dash-form-group">
+          <label class="dash-form-label">Interviewer Explicit Decision:</label>
+          <p style="font-size: 12px; color: #94a3b8; margin-top: -2px;">Explicit admin decision required. Candidate is not selected automatically.</p>
+        </div>
+        <div class="dash-modal-actions" style="justify-content: space-between;">
+          <button type="button" class="btn-modal-cancel" id="btnCancelFeedbackModal">Cancel</button>
+          <div style="display: flex; gap: 10px;">
+            <button type="button" class="btn-modal-reject" id="btnInterviewReject">Reject Candidate</button>
+            <button type="button" class="btn-modal-select" id="btnInterviewSelect">Select for New Leap Labs</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Final Decision Confirmation (Select or Reject) -->
+  <div class="dash-modal-backdrop" id="confirmFinalDecisionModal" role="dialog" aria-modal="true" style="display: none; z-index: 10001;">
+    <div class="dash-modal-card" style="max-width: 480px;">
+      <div class="dash-modal-header">
+        <div>
+          <span class="modal-eyebrow" id="finalConfirmEyebrow">DECISION CONFIRMATION</span>
+          <h2 class="dash-modal-title" id="finalConfirmTitle">Confirm Decision</h2>
+        </div>
+        <button type="button" class="btn-close-modal" id="btnCloseFinalConfirmModal" aria-label="Close modal">&times;</button>
+      </div>
+      <div style="padding: 10px 0;">
+        <p id="finalConfirmPrompt" style="font-size: 15px; font-weight: 600; color: #f8fafc; margin-bottom: 12px;">Confirm final selection of this candidate?</p>
+        <div style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 12px 14px;">
+          <div class="dash-form-group" style="margin-bottom: 4px;">
+            <span style="font-size: 13px; color: #94a3b8;">Candidate:</span>
+            <strong id="finalConfirmCandidateName" style="color: #ffffff; font-size: 14px;">—</strong>
+          </div>
+          <div class="dash-form-group" id="finalRejectionReasonContainer" style="display: none; margin-top: 10px;">
+            <label for="finalRejectionReasonInput" class="dash-form-label">Rejection Reason (Optional):</label>
+            <textarea id="finalRejectionReasonInput" class="dash-form-textarea" rows="2" placeholder="Reason for rejection..."></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="dash-modal-actions">
+        <button type="button" class="btn-modal-cancel" id="btnCancelFinalConfirm">Cancel</button>
+        <button type="button" class="btn-modal-primary" id="btnExecuteFinalDecision">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notification Toast Container -->
+  <div class="dashboard-toast" id="dashToast" role="status" aria-live="polite"></div>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/space-animations.js"></script>
+  <script src="../js/dashboard-admin.js"></script>
+</body>
+</html>

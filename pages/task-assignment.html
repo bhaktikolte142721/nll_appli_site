@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task Assignment - New Leap Labs (Admin)</title>
+  <meta name="description" content="Candidate task assignment and status tracking dashboard for New Leap Labs Admin.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/task-assignment.css">
+</head>
+<body class="dashboard-body">
+
+  <!-- Left Sidebar Navigation (Figma Group 21: 269px x 1024px) -->
+  <aside class="dashboard-sidebar" id="sidebar" aria-label="Admin Navigation">
+    <!-- Top Profile Avatar -->
+    <div class="sidebar-profile-section">
+      <div class="profile-avatar-wrap">
+        <img src="../assets/icons/profile-circle.svg" alt="Admin Profile" class="profile-avatar-img">
+      </div>
+      <span class="profile-label">Profile</span>
+    </div>
+
+    <!-- Navigation Menu Items -->
+    <nav class="sidebar-nav" aria-label="Admin Menu">
+      <a href="dashboard-admin.html" class="nav-item" id="navDashboard">
+        <span>Dashboard</span>
+      </a>
+      <a href="task-assignment.html" class="nav-item active" aria-current="page" id="navTaskAssignment">
+        <span>Task Assignment</span>
+      </a>
+      <a href="dashboard-admin.html?stage=SECOND_INTERVIEW" class="nav-item" id="navSecondInterviews">
+        <span>Second Interviews</span>
+      </a>
+    </nav>
+
+    <!-- Bottom Logout Action -->
+    <div class="sidebar-footer">
+      <a href="../login.html" class="logout-action-btn" id="logoutBtn" title="Sign out and return to Login">
+        <span class="logout-text">Logout</span>
+        <img src="../assets/icons/logout.svg" alt="" class="logout-icon" aria-hidden="true">
+      </a>
+    </div>
+  </aside>
+
+  <!-- Mobile Sidebar Overlay & Header -->
+  <div class="mobile-topbar" id="mobileTopbar">
+    <button type="button" class="mobile-menu-toggle" id="menuToggle" aria-label="Toggle navigation menu">
+      <span class="hamburger-bar"></span>
+      <span class="hamburger-bar"></span>
+      <span class="hamburger-bar"></span>
+    </button>
+    <span class="mobile-logo-title">Task Assignment</span>
+    <div class="mobile-profile-thumb">
+      <img src="../assets/icons/profile-circle.svg" alt="Admin Profile" width="32" height="32">
+    </div>
+  </div>
+  <div class="sidebar-backdrop" id="sidebarBackdrop" aria-hidden="true"></div>
+
+  <!-- Main Task Assignment Content Area -->
+  <main class="dashboard-main" id="mainContent">
+    <div class="main-content-container">
+
+      <!-- Top Section: Page Header & Floating Satellite Illustration -->
+      <section class="task-top-section space-reveal" aria-label="Header Overview">
+        <div class="task-header-titles">
+          <span class="page-eyebrow">TASK ASSIGNMENT</span>
+          <h1 class="page-title" id="pageTitle">Assign a Task to Candidate</h1>
+          <p class="page-subtitle">Create and assign a custom task. The candidate will see exactly what you write here.</p>
+        </div>
+        <div class="satellite-wrapper" aria-hidden="true">
+          <img src="../assets/satellite-illustration.png" alt="Satellite Illustration" class="satellite-img">
+        </div>
+      </section>
+
+      <!-- Task Metrics Cards (Figma Group 20: 3 Cards) -->
+      <section class="task-stats-grid space-reveal-stagger" aria-label="Task Metrics">
+        <!-- Card 1: Total number of applicants -->
+        <div class="task-stat-card card-1 space-reveal" id="statCardTotal">
+          <span class="stat-number" id="countTotal">00</span>
+          <span class="stat-label">Total number of applicants.</span>
+        </div>
+
+        <!-- Card 2: To be assigned -->
+        <div class="task-stat-card card-2 space-reveal" id="statCardToBeAssigned">
+          <span class="stat-number" id="countToBeAssigned">00</span>
+          <span class="stat-label">To be assigned</span>
+        </div>
+
+        <!-- Card 3: Assigned -->
+        <div class="task-stat-card card-3 space-reveal" id="statCardAssigned">
+          <span class="stat-number" id="countAssigned">00</span>
+          <span class="stat-label">Assigned</span>
+        </div>
+      </section>
+
+      <!-- Admin Two-Column Task Assignment Workspace (Left: Task Details, Right: Live Candidate Preview) -->
+      <section class="task-authoring-workspace space-reveal" aria-label="Task Authoring Workspace" id="taskAssignmentSection">
+        
+        <!-- LEFT COLUMN: TASK DETAILS CARD -->
+        <div class="task-details-card">
+          <div class="workspace-card-header">
+            <h2 class="workspace-card-title">Task Details</h2>
+            <p class="workspace-card-subtitle">Fill in the task information for the selected candidate.</p>
+          </div>
+
+          <form id="taskAssignForm" class="task-assign-form" novalidate>
+            <!-- A. Select Candidate * -->
+            <div class="task-form-group">
+              <label for="candidateSelect" class="task-form-label">Select Candidate <span class="required-star">*</span></label>
+              <select id="candidateSelect" name="applicationId" class="task-form-select" required>
+                <option value="">Search and select a candidate...</option>
+              </select>
+            </div>
+
+            <!-- B. Task Title * -->
+            <div class="task-form-group">
+              <div class="label-with-counter">
+                <label for="taskTitleInput" class="task-form-label">Task Title <span class="required-star">*</span></label>
+                <span class="char-counter" id="titleCharCounter">0/200</span>
+              </div>
+              <input 
+                type="text" 
+                id="taskTitleInput" 
+                name="title" 
+                class="task-form-input" 
+                placeholder="Enter a clear and concise task title..." 
+                maxlength="200"
+                required
+              >
+            </div>
+
+            <!-- C. Task Description / Instructions * -->
+            <div class="task-form-group">
+              <div class="label-with-counter">
+                <label for="taskDescriptionInput" class="task-form-label">Task Description / Instructions <span class="required-star">*</span></label>
+                <span class="char-counter" id="descCharCounter">0/2000</span>
+              </div>
+              <textarea 
+                id="taskDescriptionInput" 
+                name="description" 
+                class="task-form-textarea" 
+                placeholder="Enter detailed task description, requirements, guidelines, and any additional instructions..." 
+                rows="5" 
+                maxlength="2000"
+                required
+              ></textarea>
+            </div>
+
+            <!-- D. Deadline * -->
+            <div class="task-form-group">
+              <label for="taskDeadlineInput" class="task-form-label">Deadline <span class="required-star">*</span></label>
+              <input 
+                type="datetime-local" 
+                id="taskDeadlineInput" 
+                name="deadline" 
+                class="task-form-input" 
+                required
+              >
+              <div class="selected-deadline-preview" id="selectedDeadlinePreview" style="display: none;">
+                <span class="deadline-preview-icon">📅</span>
+                <span class="deadline-preview-label">Selected:</span>
+                <strong class="deadline-preview-val" id="selectedDeadlineText"></strong>
+              </div>
+            </div>
+
+            <!-- Validation Error Alert -->
+            <div class="task-form-error" id="taskFormError" style="display: none;" role="alert"></div>
+
+            <!-- Actions -->
+            <div class="task-form-actions">
+              <button type="button" id="btnResetTaskForm" class="btn-task-cancel">Cancel</button>
+              <button type="submit" id="btnAssignTaskSubmit" class="btn-assign-submit">
+                <span class="btn-text">Assign Task</span>
+                <span class="btn-spinner" aria-hidden="true"></span>
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- RIGHT COLUMN: PREVIEW + IMPORTANT INFORMATION PANEL -->
+        <div class="task-preview-column">
+          <!-- Live Candidate Preview Card -->
+          <div class="task-preview-card">
+            <div class="workspace-card-header">
+              <div class="preview-live-badge"><span class="badge-pulse">●</span> LIVE PREVIEW</div>
+              <h2 class="workspace-card-title">Preview (Candidate View)</h2>
+              <p class="workspace-card-subtitle">This is how the task will appear to the candidate.</p>
+            </div>
+
+            <!-- Live Candidate Task Preview Card -->
+            <div class="candidate-mockup-wrapper">
+              <div class="preview-mission-badge" aria-hidden="true">
+                <span class="badge-dot">●</span> MISSION BRIEF // ROUND 01
+              </div>
+              <div class="preview-task-box">
+                <h3 class="preview-task-title" id="previewTaskTitle">Task Title (Live Preview)</h3>
+                <div class="preview-deadline-row" id="previewDeadlineContainer" style="display: none;">
+                  <span class="preview-deadline-label">Deadline:</span>
+                  <span class="preview-deadline-val" id="previewDeadlineVal">—</span>
+                </div>
+                <div class="preview-task-description" id="previewTaskDesc">
+                  Enter task instructions and deliverables in the assignment form to preview live here.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Important Information Panel -->
+          <div class="task-info-card" aria-label="Important Information">
+            <div class="info-card-header">
+              <span class="info-card-icon" aria-hidden="true">💡</span>
+              <h3 class="info-card-title">Important</h3>
+            </div>
+            <ul class="info-card-list">
+              <li>Write clear and detailed instructions.</li>
+              <li>Specify deliverables, file format, and evaluation criteria if needed.</li>
+              <li>The candidate will see exactly what you enter here.</li>
+              <li>Once assigned, the task should not be editable by the candidate.</li>
+            </ul>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- Task Assignment Data Table Card (Figma Frame Node 1:641) -->
+      <section class="task-table-card" aria-label="Candidate Task Status Table">
+        <div class="table-responsive-wrapper">
+          <table class="task-data-table" id="taskTable">
+            <thead>
+              <tr>
+                <th scope="col" class="col-sr">
+                  <span class="th-label">Sr. No</span>
+                </th>
+                <th scope="col" class="col-name sortable" data-sort="name">
+                  <div class="th-content">
+                    <span>Name</span>
+                    <img src="../assets/icons/arrow-down.svg" alt="Sort by name" class="sort-icon">
+                  </div>
+                </th>
+                <th scope="col" class="col-domain sortable" data-sort="domain">
+                  <div class="th-content">
+                    <span>Domain</span>
+                    <img src="../assets/icons/arrow-down.svg" alt="Sort by domain" class="sort-icon">
+                  </div>
+                </th>
+                <th scope="col" class="col-assignment sortable" data-sort="assignment">
+                  <div class="th-content">
+                    <span>Task Assignment</span>
+                    <img src="../assets/icons/arrow-down.svg" alt="Sort by assignment" class="sort-icon">
+                  </div>
+                </th>
+                <th scope="col" class="col-status sortable" data-sort="status">
+                  <div class="th-content">
+                    <span>Task Status</span>
+                    <img src="../assets/icons/arrow-down.svg" alt="Sort by status" class="sort-icon">
+                  </div>
+                </th>
+                <th scope="col" class="col-submission sortable" data-sort="submission">
+                  <div class="th-content">
+                    <span>Submission</span>
+                    <img src="../assets/icons/arrow-down.svg" alt="Sort by submission" class="sort-icon">
+                  </div>
+                </th>
+              </tr>
+            </thead>
+            <tbody id="tableBody">
+              <tr class="table-loading-row">
+                <td colspan="6" style="text-align: center; padding: 40px 16px; color: #94a3b8; font-size: 14px;">
+                  Loading candidate task records...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Task Details Modal (Admin can view full assigned task description) -->
+  <div class="task-modal-backdrop" id="taskDetailModal" role="dialog" aria-modal="true" aria-labelledby="taskModalTitle" style="display: none;">
+    <div class="task-modal-card">
+      <div class="task-modal-header">
+        <h2 class="modal-title" id="taskModalTitle">Task Specification</h2>
+        <button type="button" class="btn-close-modal" id="btnCloseTaskDetailModal" aria-label="Close modal">&times;</button>
+      </div>
+      <div class="task-modal-body">
+        <div class="modal-meta-row">
+          <span class="meta-label">Candidate:</span>
+          <strong class="meta-val" id="taskModalCandidate"></strong>
+        </div>
+        <div class="modal-meta-row" id="taskModalDeadlineContainer" style="display: none;">
+          <span class="meta-label">Deadline:</span>
+          <span class="meta-val" id="taskModalDeadline"></span>
+        </div>
+        <div class="modal-meta-row">
+          <span class="meta-label">Status:</span>
+          <span class="meta-val" id="taskModalStatus"></span>
+        </div>
+        <div class="modal-desc-box">
+          <span class="desc-heading">Instructions & Requirements:</span>
+          <div id="taskModalDescription" class="task-modal-desc-content"></div>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn-modal-cancel" id="btnDismissTaskDetailModal">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Candidate Submission Details Modal -->
+  <div class="task-modal-backdrop sub-review-modal-backdrop" id="submissionDetailModal" role="dialog" aria-modal="true" aria-labelledby="subModalTitle" style="display: none;">
+    <div class="task-modal-card sub-modal-card">
+      <!-- Fixed Modal Header -->
+      <div class="task-modal-header sub-modal-header">
+        <div class="modal-title-wrap">
+          <span class="modal-eyebrow">RECRUITMENT PIPELINE</span>
+          <h2 class="modal-title" id="subModalTitle">TASK SUBMISSION REVIEW</h2>
+        </div>
+        <button type="button" class="btn-close-modal" id="btnCloseSubModal" aria-label="Close modal">&times;</button>
+      </div>
+
+      <!-- Independently Scrollable Body Content -->
+      <div class="task-modal-body sub-modal-scrollable-body">
+        <!-- 1. Candidate Information Section -->
+        <div class="sub-review-card-section">
+          <div class="sub-review-section-header">
+            <span class="section-icon">👤</span>
+            <h3 class="section-title">CANDIDATE INFORMATION</h3>
+          </div>
+          <div class="sub-info-grid candidate-info-grid">
+            <div class="sub-info-item">
+              <span class="sub-info-label">Name</span>
+              <strong class="sub-info-value" id="subModalCandidate">—</strong>
+            </div>
+            <div class="sub-info-item">
+              <span class="sub-info-label">Email</span>
+              <span class="sub-info-value" id="subModalEmail">—</span>
+            </div>
+            <div class="sub-info-item">
+              <span class="sub-info-label">Domain / Branch</span>
+              <span class="sub-info-value" id="subModalDomainBranch">—</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Task Information Section -->
+        <div class="sub-review-card-section">
+          <div class="sub-review-section-header">
+            <span class="section-icon">📋</span>
+            <h3 class="section-title">TASK INFORMATION</h3>
+          </div>
+          <div class="sub-info-grid task-info-grid">
+            <div class="sub-info-item full-width">
+              <span class="sub-info-label">Task Title</span>
+              <strong class="sub-info-value highlight-title" id="subModalTaskTitle">—</strong>
+            </div>
+            <div class="sub-info-item">
+              <span class="sub-info-label">Deadline</span>
+              <span class="sub-info-value" id="subModalDeadline">—</span>
+            </div>
+            <div class="sub-info-item">
+              <span class="sub-info-label">Status</span>
+              <div class="sub-info-value" id="subModalStatus">
+                <span class="badge-sub-status badge-submitted">Submitted</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Task Instructions Section (Constrained Scroll Container) -->
+        <div class="sub-review-card-section">
+          <div class="sub-review-section-header">
+            <span class="section-icon">📝</span>
+            <h3 class="section-title">TASK INSTRUCTIONS</h3>
+          </div>
+          <div class="sub-instructions-scroll-wrapper" id="subModalDescBox">
+            <div class="sub-instructions-text" id="subModalTaskDesc">—</div>
+          </div>
+        </div>
+
+        <!-- 4. Submission File Information Section -->
+        <div class="sub-review-card-section">
+          <div class="sub-review-section-header">
+            <span class="section-icon">📦</span>
+            <h3 class="section-title">SUBMISSION</h3>
+          </div>
+          <div class="modal-file-box" id="subModalFileBox">
+            <div class="file-box-header">
+              <div class="file-icon-badge" id="subModalFileIcon">📁</div>
+              <div class="file-info-col">
+                <span class="file-name-label" id="subModalFileName">submission_file.zip</span>
+                <div class="file-specs-row">
+                  <span class="file-spec-item" id="subModalFileType">application/zip</span>
+                  <span class="file-spec-divider">•</span>
+                  <span class="file-spec-item" id="subModalFileSize">0 KB</span>
+                  <span class="file-spec-divider">•</span>
+                  <span class="file-spec-item">Submitted: <span id="subModalSubmittedAt">—</span></span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Optional Image Preview Container -->
+            <div class="sub-modal-img-preview" id="subModalImagePreview" style="display: none;"></div>
+
+            <div class="file-preview-notice" id="subModalPreviewNotice" style="display: none;"></div>
+
+            <!-- File View/Download Actions -->
+            <div class="file-action-buttons-row">
+              <button type="button" class="btn-sub-view" id="btnSubViewFile">
+                <span>👁️ View File</span>
+              </button>
+              <button type="button" class="btn-sub-download" id="btnSubDownloadFile">
+                <span>⬇️ Download File</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. Fixed/Sticky Admin Decision Footer -->
+      <footer class="sub-modal-sticky-footer" id="subDecisionSection">
+        <div class="decision-footer-content">
+          <div class="decision-header-line">
+            <span class="decision-heading">ADMIN DECISION</span>
+            <span class="decision-sub-text">Explicit decision required for candidate progression</span>
+          </div>
+          <div class="decision-buttons-row" id="decisionButtonsRow">
+            <button type="button" class="btn-decision-reject" id="btnRejectCandidate">
+              <span>✕ Reject Candidate</span>
+            </button>
+            <button type="button" class="btn-decision-select" id="btnSelectSecondInterview">
+              <span>✓ Select for Second Interview</span>
+            </button>
+          </div>
+          <div class="decision-already-resolved" id="decisionAlreadyResolved" style="display: none;">
+            <span class="resolved-label">Candidate Pipeline Status:</span>
+            <span class="resolved-status-badge" id="resolvedStatusBadge">—</span>
+          </div>
+          <button type="button" class="btn-sub-modal-close" id="btnDismissSubModal">Close</button>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <!-- Confirmation Modal: Select for Second Interview -->
+  <div class="task-modal-backdrop" id="selectInterviewConfirmModal" role="dialog" aria-modal="true" style="display: none; z-index: 1100;">
+    <div class="task-modal-card confirm-modal-card">
+      <div class="task-modal-header">
+        <div class="modal-title-wrap">
+          <span class="modal-eyebrow" style="color: #58d87a;">STAGE PROGRESSION</span>
+          <h2 class="modal-title">Select for Second Interview</h2>
+        </div>
+        <button type="button" class="btn-close-modal" id="btnCloseSelectConfirmModal" aria-label="Close modal">&times;</button>
+      </div>
+      <div class="task-modal-body">
+        <p class="confirm-prompt-text">Select this candidate for the Second Interview Round?</p>
+        <div class="confirm-candidate-summary">
+          <div class="modal-meta-row">
+            <span class="meta-label">Candidate:</span>
+            <strong class="meta-val" id="confirmSelectCandidateName">—</strong>
+          </div>
+          <div class="modal-meta-row">
+            <span class="meta-label">Task:</span>
+            <span class="meta-val" id="confirmSelectTaskTitle">—</span>
+          </div>
+        </div>
+        <p class="confirm-note-text">Candidate will be marked eligible for Second Interview scheduling.</p>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn-modal-cancel" id="btnCancelSelectInterview">Cancel</button>
+        <button type="button" class="btn-confirm-select" id="btnConfirmSelectInterview">
+          <span>Confirm Selection</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confirmation Modal: Reject Candidate -->
+  <div class="task-modal-backdrop" id="rejectCandidateModal" role="dialog" aria-modal="true" style="display: none; z-index: 1100;">
+    <div class="task-modal-card confirm-modal-card">
+      <div class="task-modal-header">
+        <div class="modal-title-wrap">
+          <span class="modal-eyebrow" style="color: #ff6b6b;">APPLICATION DECISION</span>
+          <h2 class="modal-title" style="color: #ff6b6b;">Reject Candidate</h2>
+        </div>
+        <button type="button" class="btn-close-modal" id="btnCloseRejectModal" aria-label="Close modal">&times;</button>
+      </div>
+      <div class="task-modal-body">
+        <p class="confirm-prompt-text">Reject this candidate after task review?</p>
+        <div class="confirm-candidate-summary">
+          <div class="modal-meta-row">
+            <span class="meta-label">Candidate:</span>
+            <strong class="meta-val" id="confirmRejectCandidateName">—</strong>
+          </div>
+          <div class="modal-meta-row">
+            <span class="meta-label">Task:</span>
+            <span class="meta-val" id="confirmRejectTaskTitle">—</span>
+          </div>
+        </div>
+        <div class="task-form-group" style="margin-top: 14px;">
+          <label for="rejectReasonInput" class="task-form-label">Rejection Reason (Optional):</label>
+          <textarea id="rejectReasonInput" class="task-form-textarea" rows="3" placeholder="Provide feedback or reason for rejection..."></textarea>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn-modal-cancel" id="btnCancelRejectCandidate">Cancel</button>
+        <button type="button" class="btn-confirm-reject" id="btnConfirmRejectCandidate">
+          <span>Confirm Rejection</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notification Toast Container -->
+  <div class="dashboard-toast" id="dashToast" role="status" aria-live="polite"></div>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/space-animations.js"></script>
+  <script src="../js/task-assignment.js"></script>
+</body>
+</html>

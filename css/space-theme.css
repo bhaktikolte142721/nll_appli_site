@@ -1,0 +1,522 @@
+/* ==========================================================================
+   New Leap Labs - Shared Space Design System
+   Palette & Futuristic Aerospace Theming Tokens
+   Pure CSS - No Frameworks
+   ========================================================================== */
+
+:root {
+  /* Core Space Palette */
+  --space-deep-1: #05051A;
+  --space-deep-2: #08082A;
+  --space-surface: #0e0e38;
+  --space-surface-glass: rgba(8, 8, 42, 0.78);
+  --space-sidebar-glass: rgba(5, 5, 26, 0.85);
+
+  /* Cosmic Purples */
+  --cosmic-purple-dark: #24105C;
+  --cosmic-purple: #5B21B6;
+  --cosmic-purple-glow: rgba(91, 33, 182, 0.25);
+
+  /* Electric Blues & Cyans */
+  --electric-blue: #4965EF;
+  --electric-blue-dark: #374fc9;
+  --electric-blue-glow: rgba(73, 101, 239, 0.3);
+  --cyan-accent: #38DDF8;
+  --cyan-accent-muted: rgba(56, 221, 248, 0.7);
+  --cyan-glow: rgba(56, 221, 248, 0.2);
+
+  /* Neutrals & Text */
+  --text-white: #FFFFFF;
+  --text-muted-space: #AEB4D0;
+  --text-dim: #7982A6;
+  --border-cosmic: rgba(56, 221, 248, 0.16);
+  --border-glass: rgba(255, 255, 255, 0.12);
+
+  /* Semantic Feedback */
+  --space-success: #32D583;
+  --space-success-bg: rgba(50, 213, 131, 0.12);
+  --space-success-border: rgba(50, 213, 131, 0.35);
+
+  --space-error: #FF4D67;
+  --space-error-bg: rgba(255, 77, 103, 0.12);
+  --space-error-border: rgba(255, 77, 103, 0.35);
+
+  /* Subtle Gradients */
+  --grad-primary-btn: linear-gradient(135deg, #4965EF 0%, #6846E8 100%);
+  --grad-primary-btn-hover: linear-gradient(135deg, #5b74f5 0%, #7654ed 100%);
+  --grad-nav-active: linear-gradient(90deg, rgba(73, 101, 239, 0.32) 0%, rgba(56, 221, 248, 0.12) 100%);
+  --grad-nebula-faint: radial-gradient(circle at 85% 15%, rgba(91, 33, 182, 0.14) 0%, transparent 60%),
+                       radial-gradient(circle at 10% 85%, rgba(56, 221, 248, 0.08) 0%, transparent 55%);
+
+  /* Transitions */
+  --space-transition-fast: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  --space-transition-smooth: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Animation Durations */
+  --space-anim-reveal: 0.6s;
+  --space-anim-hover: 0.3s;
+  --space-anim-micro: 0.2s;
+}
+
+/* ==========================================================================
+   Universal Focus & Accessibility States
+   ========================================================================== */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--cyan-accent) !important;
+  outline-offset: 2px !important;
+}
+
+/* Respect Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .space-reveal,
+  .space-reveal-left,
+  .space-reveal-scale {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .space-nebula-orb,
+  .space-particle-canvas {
+    display: none !important;
+  }
+}
+
+/* ==========================================================================
+   CSS-Generated Ambient Starfield Overlay
+   ========================================================================== */
+.space-stars-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: 
+    radial-gradient(1px 1px at 45px 80px, rgba(255, 255, 255, 0.75), transparent),
+    radial-gradient(1.5px 1.5px at 180px 240px, rgba(255, 255, 255, 0.85), transparent),
+    radial-gradient(1px 1px at 320px 90px, rgba(56, 221, 248, 0.8), transparent),
+    radial-gradient(2px 2px at 480px 390px, rgba(255, 255, 255, 0.7), transparent),
+    radial-gradient(1px 1px at 620px 180px, rgba(255, 255, 255, 0.6), transparent),
+    radial-gradient(1.5px 1.5px at 780px 420px, rgba(56, 221, 248, 0.75), transparent),
+    radial-gradient(1px 1px at 940px 120px, rgba(255, 255, 255, 0.8), transparent),
+    radial-gradient(1.5px 1.5px at 1080px 320px, rgba(255, 255, 255, 0.65), transparent),
+    radial-gradient(1px 1px at 1240px 210px, rgba(56, 221, 248, 0.7), transparent),
+    radial-gradient(2px 2px at 1380px 480px, rgba(255, 255, 255, 0.75), transparent),
+    radial-gradient(1px 1px at 220px 620px, rgba(255, 255, 255, 0.7), transparent),
+    radial-gradient(1.5px 1.5px at 540px 720px, rgba(56, 221, 248, 0.65), transparent),
+    radial-gradient(1px 1px at 860px 840px, rgba(255, 255, 255, 0.8), transparent),
+    radial-gradient(1.5px 1.5px at 1160px 760px, rgba(255, 255, 255, 0.7), transparent);
+  background-repeat: repeat;
+  background-size: 800px 800px;
+  opacity: 0.55;
+  animation: spaceStarsTwinkle 12s ease-in-out infinite alternate;
+}
+
+@keyframes spaceStarsTwinkle {
+  0% { opacity: 0.45; }
+  50% { opacity: 0.65; }
+  100% { opacity: 0.5; }
+}
+
+/* Orbital trajectory accent arc */
+.orbital-accent-arc {
+  position: absolute;
+  pointer-events: none;
+  border-radius: 50%;
+  border: 1px dashed rgba(56, 221, 248, 0.16);
+  z-index: 1;
+}
+
+/* ==========================================================================
+   SCROLL REVEAL SYSTEM
+   ========================================================================== */
+
+.space-reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity var(--space-anim-reveal) cubic-bezier(0.16, 1, 0.3, 1),
+              transform var(--space-anim-reveal) cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.space-reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.space-reveal-left {
+  opacity: 0;
+  transform: translateX(-32px);
+  transition: opacity var(--space-anim-reveal) cubic-bezier(0.16, 1, 0.3, 1),
+              transform var(--space-anim-reveal) cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.space-reveal-left.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.space-reveal-scale {
+  opacity: 0;
+  transform: scale(0.92);
+  transition: opacity var(--space-anim-reveal) cubic-bezier(0.16, 1, 0.3, 1),
+              transform var(--space-anim-reveal) cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.space-reveal-scale.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Staggered children */
+.space-reveal-stagger > .space-reveal:nth-child(1) { transition-delay: 0ms; }
+.space-reveal-stagger > .space-reveal:nth-child(2) { transition-delay: 80ms; }
+.space-reveal-stagger > .space-reveal:nth-child(3) { transition-delay: 160ms; }
+.space-reveal-stagger > .space-reveal:nth-child(4) { transition-delay: 240ms; }
+.space-reveal-stagger > .space-reveal:nth-child(5) { transition-delay: 320ms; }
+.space-reveal-stagger > .space-reveal:nth-child(6) { transition-delay: 400ms; }
+.space-reveal-stagger > .space-reveal:nth-child(7) { transition-delay: 480ms; }
+.space-reveal-stagger > .space-reveal:nth-child(8) { transition-delay: 560ms; }
+
+/* ==========================================================================
+   HOVER GLOW EFFECT
+   ========================================================================== */
+
+.space-hover-glow {
+  transition: box-shadow var(--space-anim-hover) cubic-bezier(0.16, 1, 0.3, 1),
+              transform var(--space-anim-hover) cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.space-hover-glow:hover {
+  box-shadow: 0 0 20px rgba(56, 221, 248, 0.12),
+              0 8px 32px rgba(73, 101, 239, 0.10);
+  transform: translateY(-2px);
+}
+
+/* ==========================================================================
+   SHIMMER GRADIENT LINE
+   ========================================================================== */
+
+.space-shimmer-line {
+  position: relative;
+  overflow: hidden;
+}
+
+.space-shimmer-line::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.35) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: spaceShimmer 3s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes spaceShimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* ==========================================================================
+   NEBULA PULSE ORB
+   ========================================================================== */
+
+.space-nebula-orb {
+  position: absolute;
+  pointer-events: none;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.15;
+  animation: spaceNebulaPulse 8s ease-in-out infinite alternate;
+  z-index: 0;
+}
+
+.space-nebula-orb--cyan {
+  background: radial-gradient(circle, rgba(56, 221, 248, 0.6) 0%, transparent 70%);
+}
+
+.space-nebula-orb--purple {
+  background: radial-gradient(circle, rgba(91, 33, 182, 0.6) 0%, transparent 70%);
+}
+
+.space-nebula-orb--blue {
+  background: radial-gradient(circle, rgba(73, 101, 239, 0.5) 0%, transparent 70%);
+}
+
+@keyframes spaceNebulaPulse {
+  0% { opacity: 0.1; transform: scale(0.95); }
+  50% { opacity: 0.2; }
+  100% { opacity: 0.12; transform: scale(1.05); }
+}
+
+/* ==========================================================================
+   CARD ENTRANCE ANIMATION
+   ========================================================================== */
+
+.space-card-enter {
+  animation: spaceFadeScale 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes spaceFadeScale {
+  from { opacity: 0; transform: scale(0.94) translateY(12px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* ==========================================================================
+   TABLE ROW ENTRANCE
+   ========================================================================== */
+
+.space-row-enter {
+  animation: spaceSlideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  opacity: 0;
+}
+
+@keyframes spaceSlideIn {
+  from { opacity: 0; transform: translateX(-16px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* ==========================================================================
+   NAV ITEM HOVER INDICATOR
+   ========================================================================== */
+
+.space-nav-hover {
+  position: relative;
+  transition: background var(--space-anim-hover) ease,
+              color var(--space-anim-hover) ease;
+}
+
+.space-nav-hover::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%) scaleY(0);
+  width: 3px;
+  height: 60%;
+  border-radius: 0 3px 3px 0;
+  background: linear-gradient(180deg, var(--cyan-accent) 0%, var(--electric-blue) 100%);
+  transition: transform var(--space-anim-hover) cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.space-nav-hover:hover::before {
+  transform: translateY(-50%) scaleY(1);
+}
+
+/* ==========================================================================
+   BUTTON RIPPLE MICRO-INTERACTION
+   ========================================================================== */
+
+.space-btn-ripple {
+  position: relative;
+  overflow: hidden;
+}
+
+.space-btn-ripple::after {
+  content: '';
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  top: var(--ripple-y, 50%);
+  left: var(--ripple-x, 50%);
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.space-btn-ripple.rippling::after {
+  animation: spaceRipple 0.5s ease-out forwards;
+}
+
+@keyframes spaceRipple {
+  0% { transform: translate(-50%, -50%) scale(0); opacity: 0.5; }
+  100% { transform: translate(-50%, -50%) scale(3); opacity: 0; }
+}
+
+/* ==========================================================================
+   STATUS BADGE PULSE
+   ========================================================================== */
+
+.space-status-pulse {
+  animation: spaceStatusPulse 2.5s ease-in-out infinite;
+}
+
+@keyframes spaceStatusPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(50, 213, 131, 0.3); }
+  50% { box-shadow: 0 0 0 6px rgba(50, 213, 131, 0); }
+}
+
+/* ==========================================================================
+   ENHANCED MODAL ENTRANCE
+   ========================================================================== */
+
+.space-modal-enter {
+  animation: spaceModalSlide 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes spaceModalSlide {
+  from { opacity: 0; transform: translateY(-20px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.space-backdrop-enter {
+  animation: spaceBackdropFade 0.3s ease forwards;
+}
+
+@keyframes spaceBackdropFade {
+  from { opacity: 0; backdrop-filter: blur(0); }
+  to { opacity: 1; backdrop-filter: blur(8px); }
+}
+
+/* ==========================================================================
+   ENHANCED TOAST NOTIFICATIONS
+   ========================================================================== */
+
+.space-toast-enhanced {
+  background: rgba(8, 8, 42, 0.85) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(56, 221, 248, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3),
+              0 0 16px rgba(56, 221, 248, 0.08);
+}
+
+.space-toast-enhanced.success {
+  border-color: rgba(50, 213, 131, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3),
+              0 0 16px rgba(50, 213, 131, 0.1);
+}
+
+.space-toast-enhanced.error {
+  border-color: rgba(255, 77, 103, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3),
+              0 0 16px rgba(255, 77, 103, 0.1);
+}
+
+/* ==========================================================================
+   FLOATING SATELLITE ORBIT
+   ========================================================================== */
+
+.space-satellite-float {
+  animation: spaceFloat 6s ease-in-out infinite;
+  filter: drop-shadow(0 0 18px rgba(56, 221, 248, 0.15));
+}
+
+@keyframes spaceFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-8px) rotate(0.8deg); }
+  50% { transform: translateY(-14px) rotate(1.5deg); }
+  75% { transform: translateY(-6px) rotate(0.5deg); }
+}
+
+/* ==========================================================================
+   TYPING CURSOR EFFECT
+   ========================================================================== */
+
+.space-typing-cursor::after {
+  content: '|';
+  display: inline-block;
+  color: var(--cyan-accent);
+  font-weight: 300;
+  animation: spaceTypingBlink 0.9s step-end infinite;
+  margin-left: 2px;
+}
+
+@keyframes spaceTypingBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* ==========================================================================
+   AMBIENT ORBIT RING
+   ========================================================================== */
+
+.space-orbit-ring {
+  position: absolute;
+  pointer-events: none;
+  border-radius: 50%;
+  border: 1px dashed rgba(56, 221, 248, 0.1);
+  animation: spaceOrbitSpin 90s linear infinite;
+  z-index: 0;
+}
+
+@keyframes spaceOrbitSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.space-orbit-dot {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--cyan-accent);
+  box-shadow: 0 0 6px var(--cyan-accent);
+  top: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* ==========================================================================
+   GRADIENT BORDER GLOW (for cards on dark backgrounds)
+   ========================================================================== */
+
+.space-glow-border {
+  position: relative;
+}
+
+.space-glow-border::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(56, 221, 248, 0.2) 0%, rgba(91, 33, 182, 0.15) 50%, rgba(73, 101, 239, 0.2) 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--space-anim-hover) ease;
+}
+
+.space-glow-border:hover::before {
+  opacity: 1;
+}
+
+/* ==========================================================================
+   LOADING SKELETON SHIMMER
+   ========================================================================== */
+
+.space-skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.04) 25%,
+    rgba(255, 255, 255, 0.08) 50%,
+    rgba(255, 255, 255, 0.04) 75%
+  );
+  background-size: 400% 100%;
+  animation: spaceSkeleton 1.5s ease infinite;
+  border-radius: 6px;
+}
+
+@keyframes spaceSkeleton {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
